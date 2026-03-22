@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider"
 import { GetDetailsTaskProject } from "../function"
+import {useRouter} from "next/navigation"
 
 
 
@@ -9,6 +10,7 @@ export default function Project() {
     const { projects, tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail, refreshProjects } = useProtected();
     const [taskProject, setTaskProject] = useState<{ [key: string]: any[] }>({})
     const userOwn = userDetail?.name
+    const router =useRouter()
 
     useEffect(() => {
         projects.forEach((project) => {
@@ -57,7 +59,9 @@ export default function Project() {
                         ))}
                     </div>
                 </div>
-
+               <button className="bg-black text-white cursor-pointer" onClick={() => router.push(`/project/${e.id}`)}>
+  Voir le projet
+</button>
 
             </div>
         ))}</div>

@@ -31,7 +31,7 @@ export default function header() {
                 </div>
             </div>
 
-            <p className="text-black h-16 w-16 rounded-full bg-amber-300 flex items-center justify-center text-black">{userDetail?.name.substring(0, 2).toUpperCase()}</p>
+            <p onClick={()=>router.push("/setting")} className="text-black h-16 w-16 rounded-full bg-amber-300 flex items-center justify-center text-black">{userDetail?.name.substring(0, 2).toUpperCase()}</p>
 
         </header>
     )
