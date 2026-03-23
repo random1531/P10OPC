@@ -8,6 +8,7 @@ export async function UpdateUser({ name, email }: { name: string, email: string 
             method: "PUT",
             headers: {
                 Accept: "application/json",
+                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(formData)
