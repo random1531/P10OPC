@@ -6,7 +6,7 @@ export default function Badge({ status }: { status: string }) {
     ]
     const badge = Badge.find(b => b.status === status);
     return (
-        <span className="cardStyle" style={{ color: badge?.color , backgroundColor:badge?.bgColor, padding: "4px 8px", fontSize: "12px", fontWeight: "bold",height:"fit-content",borderRadius:'50px',width:'90px',display:"flex",justifyContent:"center",alignItems:"center" }}>
+        <span className="cardStyle" style={{ color: badge?.color , backgroundColor:badge?.bgColor, padding: "4px 8px", fontSize: "12px", fontWeight: "bold",height:"fit-content",borderRadius:'50px',display:"flex",justifyContent:"center",alignItems:"center" }}>
             {badge ? badge.textremplacement : status}
         </span>
     );
