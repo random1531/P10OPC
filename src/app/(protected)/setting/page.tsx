@@ -6,6 +6,7 @@ export default function setting() {
     const { userDetail, loading, error, refreshUserDetail } = useProtected();
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
+  
 
     useEffect(() => {
         if (userDetail) {
@@ -13,13 +14,16 @@ export default function setting() {
             setName(userDetail?.name)
         }
     }, [userDetail])
+
+    
+
     return (
         <div className="flex flex-col gap-3 w-full items-center mt-14">
             <div className="flex flex-col gap-11 w-5/6 bg-white pt-10 pb-10 pr-14 pl-14 rounded-xl border-2 border-gray-200">
             <div className="flex flex-col" >
                 <p>Mon compte</p>
                 <p>{userDetail?.name}</p>
-
+       
             </div>
                 <form onSubmit={async (e) => {
                     e.preventDefault();

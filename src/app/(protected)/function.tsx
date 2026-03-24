@@ -101,3 +101,21 @@ export async function AddTasksToproject(
 
     }
 }
+
+export async function DeleteTask({idProject,idTask}:{idProject:string,idTask:string}){
+    const token = localStorage.getItem("token")
+    try {
+        const response = await fetch(`http://localhost:8000/projects/${idProject}/tasks/${idTask}`,{
+            method: "DELETE",
+            headers:{
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        const result = await response.json()
+        alert("Tache supprimé")
+    } catch (error) {
+        
+    }
+}
