@@ -54,7 +54,7 @@ export type GetDetailsTaskProjectResponse = {
         tasks: TaskProject[];
     };
 };
-
+//Détail task by project
 export async function GetDetailsTaskProject({ id }: { id: string }): Promise<GetDetailsTaskProjectResponse | undefined> {
     const token = localStorage.getItem("token");
     try {
@@ -73,5 +73,31 @@ export async function GetDetailsTaskProject({ id }: { id: string }): Promise<Get
     } catch (error) {
         console.log(error);
         return undefined;
+    }
+}
+
+export async function AddTasksToproject(
+    { id, title, description, priority, dueDate, assigneeIds }: 
+    { id: string, title: string, description: string, priority: string, dueDate: string, assigneeIds: string[] })
+     {
+    const token = localStorage.getItem("token")
+    try {
+        const formData = {
+            title, description, priority, dueDate, assigneeIds
+        }
+        const response = await fetch(`http://localhost:8000/projects/${id}/tasks`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(formData)
+
+        })
+        const result = await response.json()
+        return result
+    } catch (error) {
+
     }
 }

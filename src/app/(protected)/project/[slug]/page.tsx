@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import Badge from "@/app/ui/badge/badge";
 import ModalCreateTask from "@/app/ui/modal/CreatTask";
 import FormModal from '../../../ui/modal/form'
+import FormCreteTask from "./createTasks"
 
 export default function projetIdDetails() {
     const [task, setTask] = useState<TaskProject[]>([]);
@@ -29,7 +30,7 @@ export default function projetIdDetails() {
 
     return (
         <div className="flex flex-col items-center w-full relative">
-            {opCreateTask && <ModalCreateTask onClose={()=>setopCreateTask(null)} children={<FormModal/>}/>}
+            {opCreateTask && <ModalCreateTask onClose={()=>setopCreateTask(null)} children={<FormCreteTask/>}/>}
             <div>
                 <button onClick={() => setopCreateTask("open")} className="bg-black text-white">Crée tache</button>
             </div>
@@ -65,8 +66,15 @@ export default function projetIdDetails() {
                             </div>
                         </div>
 
-                        {isOpen === e.id && <div>{e.comments.map((e) => (
-                            <div key={e.id}> <p >{e.content}</p> <p>{e.author.name}</p></div>
+                        {isOpen === e.id && <div className="flex flex-col gap-14">{e.comments.map((e) => (
+                            <div className="flex flex-col" key={e.id}>
+                                <div className="flex justify-between h-20">
+                                <p>{e.author.name.substring(0,2)}</p>
+                                <div className="flex flex-col justify-between bg-gray-100 h-20 w-11/12 rounded-xl p-4">
+                                    <p>{e.author.name}</p>
+                                 <p >{e.content}</p> </div>
+                                </div>
+                                </div>
                         ))}</div>}
                     </div>
                 ))}
