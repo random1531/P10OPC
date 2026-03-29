@@ -10,6 +10,7 @@ import Badge from "@/app/ui/badge/badge";
 import ModalCreateTask from "@/app/ui/modal/CreatTask";
 import FormCreteTask from "./createTasks"
 import {SendComments } from "../../function"
+import Test from "../../../ui/test"
 
 export default function projetIdDetails() {
     const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();
@@ -17,6 +18,7 @@ export default function projetIdDetails() {
     const [allTasks, setAllTasks] = useState<TaskProject[]>([]);
     const [isOpen, setIsOpen] = useState<string | null>(null)
     const [opCreateTask, setopCreateTask] = useState<string | null>(null)
+    const [iaTask,setIATask]= useState<string | null>(null)
     const [commentss, setComments] = useState<string>("")
     const [idp, setIdp] = useState<string>("")
     const params = useParams();
@@ -58,10 +60,11 @@ export default function projetIdDetails() {
                 <div className="flex items-center"><p>Contributeurs </p> <span> 3 personnes</span></div>
                 <div></div>
             </div>
-
+            {iaTask && <ModalCreateTask onClose={()=> setIATask(null)} children={<Test/>}/>}
             {opCreateTask && <ModalCreateTask onClose={() => setopCreateTask(null)} children={<FormCreteTask />} />}
-            <div>
+            <div className="flex w-full justify-between">
                 <button onClick={() => setopCreateTask("open")} className="bg-black text-white cursor-pointer">Crée tache</button>
+                <button onClick={()=>setIATask("open")} className="bg-black text-white cursor-pointer">IA</button>
             </div>
             <div className="flex flex-col w-full gap-2.5 bg-white pt-5 pb-5 pr-12 pl-12">
                 <div className="w-full flex justify-between">
