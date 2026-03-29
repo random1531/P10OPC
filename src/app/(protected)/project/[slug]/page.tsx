@@ -8,9 +8,8 @@ import { CiCalendarDate } from "react-icons/ci";
 import { useParams } from "next/navigation";
 import Badge from "@/app/ui/badge/badge";
 import ModalCreateTask from "@/app/ui/modal/CreatTask";
-import FormModal from '../../../ui/modal/form'
 import FormCreteTask from "./createTasks"
-import { DeleteTask,SendComments } from "../../function"
+import {SendComments } from "../../function"
 
 export default function projetIdDetails() {
     const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();
@@ -18,12 +17,12 @@ export default function projetIdDetails() {
     const [allTasks, setAllTasks] = useState<TaskProject[]>([]);
     const [isOpen, setIsOpen] = useState<string | null>(null)
     const [opCreateTask, setopCreateTask] = useState<string | null>(null)
-    const [commentss,setComments]=useState<string>("")
-    const [idp,setIdp]=useState<string>("")
+    const [commentss, setComments] = useState<string>("")
+    const [idp, setIdp] = useState<string>("")
     const params = useParams();
     const slug = params.slug;
     const projectId = Array.isArray(slug) ? slug[0] : slug;
-   
+
     useEffect(() => {
         if (typeof projectId === "string" && projectId.length > 0) {
             GetDetailsTaskProject({ id: projectId }).then((result) => {
@@ -87,7 +86,7 @@ export default function projetIdDetails() {
                             <div className="flex justify-between">
 
                                 <div className="flex flex-col gap-2">
-                                   
+
                                     <div className="flex gap-2">
                                         <p className="text-lg font-semibold">{e.title}</p>
                                         <Badge status={e.status} />
@@ -118,7 +117,7 @@ export default function projetIdDetails() {
                                 <div className="flex justify-between h-20">
                                     <p>{e.author.name.substring(0, 2)}</p>
                                     <div className="flex justify-between bg-gray-100 h-20 w-11/12 rounded-xl p-4">
-                                    {userDetail && e.author.id === userDetail?.id ?  <p>XA</p>:null}
+                                        {userDetail && e.author.id === userDetail?.id ? <p>XA</p> : null}
                                         <div className="flex flex-col justify-between">
 
                                             <p>{e.author.name}</p>
@@ -130,12 +129,12 @@ export default function projetIdDetails() {
                             </div>
                         ))} <div className="flex justify-between h-32">
                                 <p>ui</p>
-                                <form onSubmit={(t)=> {t.preventDefault(), SendComments({ProjectId:idp,tasksID:e.id,comment:commentss})}} className="flex items-end flex-col gap-2.5 justify-between h-full w-11/12 rounded-xl ">
+                                <form onSubmit={(t) => { t.preventDefault(), SendComments({ ProjectId: idp, tasksID: e.id, comment: commentss }) }} className="flex items-end flex-col gap-2.5 justify-between h-full w-11/12 rounded-xl ">
 
                                     <div className="flex justify-between bg-gray-100 h-20 w-full rounded-xl ">
-                                        <input onChange={(e)=>setComments(e.target.value)} type="text" placeholder="Ajouter un commentaire..." className="w-full h-full border-2" />
+                                        <input onChange={(e) => setComments(e.target.value)} type="text" placeholder="Ajouter un commentaire..." className="w-full h-full border-2" />
                                     </div>
-                                    <button key={e.id} type="submit"  className="bg-black text-white rounded-xl w-2xs h-12">Envoyer</button>
+                                    <button key={e.id} type="submit" className="bg-black text-white rounded-xl w-2xs h-12">Envoyer</button>
                                 </form>
                             </div>
 

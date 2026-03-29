@@ -137,17 +137,37 @@ export async function searchUser({ value }: { value: string }) {
     }
 }
 
-export async function SendComments({ProjectId,tasksID,comment}:{ProjectId:string,tasksID:string,comment:string}){
-const token = localStorage.getItem("token")
-const formData = { content: comment }
-try {
+export async function SendComments({ ProjectId, tasksID, comment }: { ProjectId: string, tasksID: string, comment: string }) {
+    const token = localStorage.getItem("token")
+    const formData = { content: comment }
+    try {
         const response = await fetch(`http://localhost:8000/projects/${ProjectId}/tasks/${tasksID}/comments`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
-            },body:JSON.stringify(formData)
+            }, body: JSON.stringify(formData)
+        })
+        const result = await response.json()
+        return result
+    } catch (error) {
+
+    }
+}
+
+export async function CreateProject({ Title, description, userIds }:
+    { Title: string, description: string, userIds: string[] }) {
+    const token = localStorage.getItem("token")
+    const formData = { name:Title, description:description, contributors:userIds }
+    try {
+        const response = await fetch("http://localhost:8000/projects", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }, body: JSON.stringify(formData)
         })
         const result = await response.json()
         return result

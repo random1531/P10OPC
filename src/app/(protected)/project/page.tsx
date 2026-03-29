@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider"
 import { GetDetailsTaskProject } from "../function"
 import { useRouter } from "next/navigation"
-
+import ModalCreateTask from "../../ui/modal/CreatTask"
+import CreatProject from "@/app/ui/form/project";
 
 
 export default function Project() {
     const { projects, tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail, refreshProjects } = useProtected();
     const [taskProject, setTaskProject] = useState<{ [key: string]: any[] }>({})
+    const [isOpen, setIsOpen] = useState<string | null>(null)
     const userOwn = userDetail?.name
     const router = useRouter()
 
@@ -22,14 +24,17 @@ export default function Project() {
             })
         })
     }, [projects])
+
+    console.log(isOpen)
     return (
         <div className="flex flex-col w-full gap-4 items-center gap-16 mt-6">
+            {isOpen && <ModalCreateTask onClose={() => setIsOpen(null)} children={<CreatProject />} />}
             <div className="flex justify-between items-center w-4/5">
                 <div className="flex flex-col gap-3.5">
                     <p>Mes projets</p>
-                    <p>Gérez vos projets </p>
+                    <button >Gérez vos projets </button>
                 </div>
-            <button className="bg-black text-white">Crée un projet</button>
+                <button onClick={()=>setIsOpen("open")} className="bg-black text-white">Crée un projet</button>
             </div>
 
             <div className="grid grid-cols-3 gap-12 flex-wrap w-4/5">{projects.map((e) => (
@@ -40,10 +45,10 @@ export default function Project() {
                     </div>
                     <div className="flex flex-col">
                         <div className="flex justify-between">
-                        <p>Progression</p>
-                        <p>{
+                            <p>Progression</p>
+                            <p>{
                                 Math.round(((taskProject[e.id] || []).filter((e) => e.status === "DONE").length * 100) /
-                                ((taskProject[e.id] || []).length || 1))
+                                    ((taskProject[e.id] || []).length || 1))
                             } %</p>
                         </div>
                         <progress

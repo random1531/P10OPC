@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider"
 import { UpdateUser } from "./function";
 import InputFunction from "@/app/ui/form/input";
+import UserSearch from "../../ui/userShearch/usershearch"
 
 export default function setting() {
     const { userDetail, loading, error, refreshUserDetail } = useProtected();
