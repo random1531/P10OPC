@@ -5,6 +5,7 @@ import { GetDetailsTaskProject } from "../function"
 import { useRouter } from "next/navigation"
 import ModalCreateTask from "../../ui/modal/CreatTask"
 import CreatProject from "@/app/ui/form/project";
+import HeaderDashProject from "@/app/components/headerDashProject";
 
 
 export default function Project() {
@@ -30,11 +31,8 @@ export default function Project() {
         <div className="flex flex-col w-full gap-4 items-center gap-16 mt-6">
             {isOpen && <ModalCreateTask onClose={() => setIsOpen(null)} children={<CreatProject />} />}
             <div className="flex justify-between items-center w-4/5">
-                <div className="flex flex-col gap-3.5">
-                    <p>Mes projets</p>
-                    <button >Gérez vos projets </button>
-                </div>
-                <button onClick={()=>setIsOpen("open")} className="bg-black text-white">Crée un projet</button>
+           
+            <HeaderDashProject useName={userDetail?.name} />
             </div>
 
             <div className="grid grid-cols-3 gap-12 flex-wrap w-4/5">{projects.map((e) => (

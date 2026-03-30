@@ -9,16 +9,22 @@ import { useParams } from "next/navigation";
 import Badge from "@/app/ui/badge/badge";
 import ModalCreateTask from "@/app/ui/modal/CreatTask";
 import FormCreteTask from "./createTasks"
-import {SendComments } from "../../function"
+import { SendComments } from "../../function"
+import type { Project } from "../../../types/user"
 import Test from "../../../ui/test"
-
+import { useProjectTasksStore } from "../../../store/useProjectTasksStore";
+import HeaderProject from "@/app/ui/projectDetail/headerProject";
+import HeroHeader from "@/app/ui/projectDetail/herohead";
 export default function projetIdDetails() {
-    const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();
+    const { tasks, loading, error, fetchTasks } = useProjectTasksStore();
+    const { projects, userDetail, refreshAssignedTasks, refreshUserDetail } = useProtected();
+
     const [task, setTask] = useState<TaskProject[]>([]);
+    const [pr, setpr] = useState<Project | undefined>(undefined);
     const [allTasks, setAllTasks] = useState<TaskProject[]>([]);
     const [isOpen, setIsOpen] = useState<string | null>(null)
     const [opCreateTask, setopCreateTask] = useState<string | null>(null)
-    const [iaTask,setIATask]= useState<string | null>(null)
+    const [iaTask, setIATask] = useState<string | null>(null)
     const [commentss, setComments] = useState<string>("")
     const [idp, setIdp] = useState<string>("")
     const params = useParams();
@@ -31,11 +37,19 @@ export default function projetIdDetails() {
                 setAllTasks(result?.data?.tasks ?? []);
                 setTask(result?.data?.tasks ?? []);
                 setIdp(projectId)
+                setpr(projects.find((e) => e.id === projectId));
             }).catch((err) => {
                 console.error(err);
             });
         }
-    }, [projectId]);
+    }, [projectId, projects]);
+
+    useEffect(() => {
+        if (typeof projectId === "string" && projectId.length > 0) {
+            fetchTasks(projectId);
+
+        }
+    }, [projectId, fetchTasks]);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
@@ -53,19 +67,24 @@ export default function projetIdDetails() {
             setTask(allTasks.filter((t) => t.title.toLowerCase().includes(value.toLowerCase())));
         }
     }
+    console.log(pr)
 
     return (
-        <div className="flex flex-col items-center w-full relative pt-10 pb-10 pr-14 pl-14">
-            <div className="flex justify-between bg-gray-100 h-16 w-full rounded-xl pt-5 pb-5 pr-12 pl-12">
-                <div className="flex items-center"><p>Contributeurs </p> <span> 3 personnes</span></div>
-                <div></div>
-            </div>
-            {iaTask && <ModalCreateTask onClose={()=> setIATask(null)} children={<Test/>}/>}
+        <div className="flex flex-col items-center w-full relative pt-10 pb-10 pr-14 pl-14 gap-6">
+            <HeroHeader
+                ProjectDescription={pr?.description}
+                ProjectName={pr?.name}
+                onCreateTask={() => setopCreateTask("open")}
+                onCreateIATask={() => setIATask("open")}
+            />
+            <HeaderProject
+                contributornb={((pr?.members?.length ?? 0) + 1).toString()}
+                owner={pr?.owner}
+                members={pr?.members}
+            />
+            {iaTask && <ModalCreateTask onClose={() => setIATask(null)} children={<Test idPorject={idp} />} />}
             {opCreateTask && <ModalCreateTask onClose={() => setopCreateTask(null)} children={<FormCreteTask />} />}
-            <div className="flex w-full justify-between">
-                <button onClick={() => setopCreateTask("open")} className="bg-black text-white cursor-pointer">Crée tache</button>
-                <button onClick={()=>setIATask("open")} className="bg-black text-white cursor-pointer">IA</button>
-            </div>
+
             <div className="flex flex-col w-full gap-2.5 bg-white pt-5 pb-5 pr-12 pl-12">
                 <div className="w-full flex justify-between">
                     <div className="flex flex-col">
@@ -83,7 +102,7 @@ export default function projetIdDetails() {
                         <input type="search" onChange={handleSearch} className="border-1" name="" id="" />
                     </div>
                 </div>
-                {task.map((e) => (
+                {tasks.map((e) => (
                     <div key={e.id} className="flex flex-col w-full gap-6 bg-white rounded-xl border-gray-100 border-2 pt-6 pb-6 pr-10 pl-10">
                         <div className="flex flex-col w-full gap-6">
                             <div className="flex justify-between">

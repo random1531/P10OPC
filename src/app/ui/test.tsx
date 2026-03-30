@@ -1,13 +1,14 @@
 import { useState } from "react";
 import IaTask from "./task/iaTask";
+import { AddTasksToproject } from "../(protected)/function";
 
 type Task = {
   title: string;
-  description: string;
   dueDate: string;
+  description: string;
 };
 
-export default function TaskGenerator() {
+export default function TaskGenerator({idPorject}:{idPorject:string}) {
   const [text, setText] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [step, setStep] = useState<"input" | "loading" | "result">("input");
@@ -43,6 +44,22 @@ export default function TaskGenerator() {
     }
   };
 
+  const handleSubmitTasks = async () => {
+    // send all tasks; provide required priority and assigneeIds fields
+    await Promise.all(
+      tasks.map((element) =>
+        AddTasksToproject({
+          id: idPorject,
+          title: element.title,
+          description: element.description,
+          dueDate: element.dueDate,
+          priority: "MEDIUM",
+          assigneeIds: [],
+        })
+      )
+    );
+  };
+
   return (
     <div>
       {step === "input" && (
@@ -71,8 +88,6 @@ export default function TaskGenerator() {
 
       {step === "result" && (
         <div className="flex flex-col gap-6">
-          <h2>Tâches générées</h2>
-
           {tasks.map((task, index) => (
             <IaTask
               key={index}
@@ -80,6 +95,7 @@ export default function TaskGenerator() {
               Description={task.description}
             />
           ))}
+          <button onClick={handleSubmitTasks}>Enregistrer</button>
         </div>
       )}
     </div>

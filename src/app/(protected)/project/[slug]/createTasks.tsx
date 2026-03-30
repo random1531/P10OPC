@@ -2,9 +2,11 @@ import { useState, useEffect } from "react"
 import { AddTasksToproject } from "../../function"
 import { useParams } from "next/navigation";
 import Inputseach from "../../../ui/userShearch/usershearch"
+import { useProjectTasksStore } from "../../../store/useProjectTasksStore";
 
 
 export default function createTasks() {
+    const { fetchTasks } = useProjectTasksStore();
     const params = useParams();
     const slugParam = params.slug;
     const normalizedId = Array.isArray(slugParam) ? slugParam[0] : slugParam ?? "";
@@ -24,6 +26,7 @@ export default function createTasks() {
         const result = await AddTasksToproject({ id, title, description, dueDate, priority, assigneeIds });
         if (result && result.success) {
             setMessage(result.message)
+            await fetchTasks(id);
         } else if (result && result.data && Array.isArray(result.data.errors)) {
            
             setMessage(result.data.errors.map((err: any) => err.message).join(" | "));

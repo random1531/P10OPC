@@ -3,8 +3,8 @@ import { Mistral } from '@mistralai/mistralai';
 
 type Task = {
   title: string;
-  description: string;
   dueDate: string;
+  description: string;
 };
 
 type AgentResponse = {
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let parsed: AgentResponse;
+    let parsed: AgentResponse | Task[];
 
     try {
       parsed = JSON.parse(rawContent);
@@ -82,7 +82,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!parsed.tasks || !Array.isArray(parsed.tasks)) {
+    let tasks: Task[] = [];
+    if (Array.isArray(parsed)) {
+      tasks = parsed;
+    } else if ((parsed as AgentResponse).tasks && Array.isArray((parsed as AgentResponse).tasks)) {
+      tasks = (parsed as AgentResponse).tasks;
+    } else {
       return NextResponse.json(
         {
           error: 'Le JSON retourné ne contient pas un tableau tasks valide',
@@ -92,7 +97,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ tasks: parsed.tasks });
+    return NextResponse.json({ tasks });
   } catch (error) {
     console.error('POST /api/generate-tasks error:', error);
 
