@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
-import { AddTasksToproject } from "../../function"
+import { AddTasksToproject } from "@/features/task/api";
 import { useParams } from "next/navigation";
-import Inputseach from "../../../ui/userShearch/usershearch"
-import { useProjectTasksStore } from "../../../store/useProjectTasksStore";
+import Inputseach from "../../../../components/ui/userShearch/usershearch"
+import { useProjectTasksStore } from "@/store/useProjectTasksStore"
+import { toast } from "sonner";
 
 
 export default function createTasks() {
@@ -27,13 +28,16 @@ export default function createTasks() {
         if (result && result.success) {
             setMessage(result.message)
             await fetchTasks(id);
+            toast.success(result.message)
         } else if (result && result.data && Array.isArray(result.data.errors)) {
            
             setMessage(result.data.errors.map((err: any) => err.message).join(" | "));
         } else if (result && result.message) {
             setMessage(result.message);
+            toast.error(result.message);
         } else {
             setMessage("Une erreur est survenue lors de la création de la tâche.");
+            toast.error(result.message);
         }
     };
 

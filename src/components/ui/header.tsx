@@ -1,4 +1,4 @@
-import { useProtected } from "../context/ContextProvider"
+import { useProtected } from "../../app/context/ContextProvider"
 import Image from "next/image";
 import Logo from "../../../public/logo.png"
 import { MdDashboard } from "react-icons/md";

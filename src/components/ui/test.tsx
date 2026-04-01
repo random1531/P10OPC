@@ -1,6 +1,8 @@
 import { useState } from "react";
 import IaTask from "./task/iaTask";
-import { AddTasksToproject } from "../(protected)/function";
+import { AddTasksToproject } from "@/features/task/api";
+import { HiSparkles } from "react-icons/hi";
+import Loader from "./loader";
 
 type Task = {
   title: string;
@@ -8,7 +10,7 @@ type Task = {
   description: string;
 };
 
-export default function TaskGenerator({idPorject}:{idPorject:string}) {
+export default function TaskGenerator({ idPorject }: { idPorject: string }) {
   const [text, setText] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [step, setStep] = useState<"input" | "loading" | "result">("input");
@@ -45,7 +47,7 @@ export default function TaskGenerator({idPorject}:{idPorject:string}) {
   };
 
   const handleSubmitTasks = async () => {
-    // send all tasks; provide required priority and assigneeIds fields
+
     await Promise.all(
       tasks.map((element) =>
         AddTasksToproject({
@@ -61,33 +63,44 @@ export default function TaskGenerator({idPorject}:{idPorject:string}) {
   };
 
   return (
-    <div>
+    <div className="h-full">
       {step === "input" && (
-        <div>
-          <h2>Décris les tâches à créer</h2>
+        <div className="flex flex-col justify-between h-full" >
+          <div className="w-full flex ">
+            <HiSparkles className="text-orange-400 flex items-center justify-center" />
+            <h2 className="text-[#1F1F1F] font-semibold text-2xl">Créer une tâche</h2>
+          </div>
+          <div className="relative">
 
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Ex: Préparer la réunion demain et envoyer le compte rendu vendredi"
-            rows={6}
-          />
+            <input
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Ex: Préparer la réunion demain et envoyer le compte rendu vendredi"
+              className="gap-[10px] rounded-[80px] pt-[18px] pr-8 pb-[18px] pl-8 w-full bg-gray-50"
 
-          <button onClick={handleSubmit}>Envoyer</button>
+            />
+            <HiSparkles onClick={handleSubmit} className="text-orange-400 flex items-center justify-center absolute right-2 top-4 w-6 h-6" />
+          </div>
+
+
 
           {error && <p>{error}</p>}
         </div>
       )}
 
       {step === "loading" && (
-        <div>
+        <div className="flex flex-col w-full items-center justify-center gap-2">
           <p>Analyse en cours...</p>
-          <p>Loader ici</p>
+         <Loader/>
         </div>
       )}
 
       {step === "result" && (
         <div className="flex flex-col gap-6">
+          <div className="w-full flex ">
+            <HiSparkles className="text-orange-400 flex items-center justify-center" />
+            <h2 className="text-[#1F1F1F] font-semibold text-2xl">Vos tâches...</h2>
+          </div>
           {tasks.map((task, index) => (
             <IaTask
               key={index}

@@ -1,12 +1,12 @@
 "use client"
-import CardTask from "../../ui/cardTask/cardTask"
-import { useProtected } from "../../context/ContextProvider"
+import CardTask from "../cardTask/cardTask"
+import { useProtected } from "../../../app/context/ContextProvider"
 
 
 export default function DashList() {
     const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();
     return (
-        <div className="flex flex-col  pr-14 pl-14 pt-10 pb-10 gap-10 rounded-xl border-1 bg-white">
+        <div className="flex flex-col  pr-14 pl-14 pt-10 pb-10 gap-10 rounded-xl border border-gray-200 bg-white">
             <div className="flex justify-between">
                 <div className="flex flex-col">
                     <p className="font-sans font-semibold text-lg text-[#1F1F1F]">Mes tâches assignées</p>

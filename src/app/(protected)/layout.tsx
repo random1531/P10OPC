@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../ui/header"
+import Header from "../../components/ui/header"
 import { ProtectedProvider } from "../context/ContextProvider"
+import { Toaster } from "sonner";
 
 export default function ProtectedLayout({
   children,
@@ -31,6 +32,7 @@ export default function ProtectedLayout({
       <Header />
 
       {children}
+       <Toaster position="top-right" richColors />
     </ProtectedProvider>
   </>;
 }

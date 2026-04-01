@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { searchuserFc } from "./function"
-import type { User } from "../../types/user"
+import type { User } from "../../../types/user"
 export default function SearchUser({ userSelected, setUserSelected }:
     { userSelected: string[]; setUserSelected: React.Dispatch<React.SetStateAction<string[]>> }) {
     const [useSh, setUseSh] = useState<string>("");
@@ -34,7 +34,7 @@ export default function SearchUser({ userSelected, setUserSelected }:
             />
             {Array.isArray(UserFound) && UserFound.map((e) => (
                 <div key={e.id}>
-                    <span className="h-2 w-full" onClick={() => setUserSelected(prev => [...prev, e.email])}>
+                    <span className="h-2 w-full" onClick={() => setUserSelected(prev => [...prev, e.id])}>
                         {e.name}
                     </span>
                     <hr />

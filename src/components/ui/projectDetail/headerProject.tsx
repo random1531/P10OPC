@@ -1,4 +1,4 @@
-import type { User, ProjectMember } from "../../types/user";
+import type { User, ProjectMember } from "../../../types/user";
 
 export default function HeaderProject({
     contributornb,

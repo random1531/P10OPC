@@ -1,7 +1,7 @@
 import { useState } from "react"
 import InputForm from "./input"
 import SearchUser from "../userShearch/usershearch"
-import {CreateProject} from "../../(protected)/function"
+import {CreateProject} from "../../../app/(protected)/function"
 
 export default function CreatProject() {
     const [title, setTitle] = useState<string>("")

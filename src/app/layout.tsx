@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope } from 'next/font/google'
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['600'], // SemiBold
+})
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex flex-col items-center antialiased bg-gray-50 text-gray-900`}
+        className={`${manrope.className} ${geistMono.variable} flex flex-col items-center antialiased bg-gray-50 text-gray-900`}
       >
         {children}
       </body>

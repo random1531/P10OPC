@@ -1,8 +1,9 @@
 import { create } from "zustand";
-import { GetDetailsTaskProject, TaskProject } from "../(protected)/function";
+import { GetDetailsTaskProject } from "../features/task/api";
+import type { Task } from "@/types/task";
 
 type ProjectTasksState = {
-  tasks: TaskProject[];
+  tasks: Task[];
   loading: boolean;
   error: string | null;
   fetchTasks: (projectId: string) => Promise<void>;

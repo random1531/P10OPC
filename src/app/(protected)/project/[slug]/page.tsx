@@ -3,21 +3,22 @@ import { useEffect, useState } from "react"
 import { GetDetailsTaskProject, TaskProject } from "../../function"
 import { useProtected } from "../../../context/ContextProvider"
 import { FaChevronUp } from "react-icons/fa6";
-import { BsThreeDots } from "react-icons/bs";
 import { CiCalendarDate } from "react-icons/ci";
 import { useParams } from "next/navigation";
-import Badge from "@/app/ui/badge/badge";
-import ModalCreateTask from "@/app/ui/modal/CreatTask";
+import Badge from "@/components/ui/badge/badge";
+import ModalCreateTask from "@/components/ui/modal/CreatTask";
 import FormCreteTask from "./createTasks"
 import { SendComments } from "../../function"
-import type { Project } from "../../../types/user"
-import Test from "../../../ui/test"
-import { useProjectTasksStore } from "../../../store/useProjectTasksStore";
-import HeaderProject from "@/app/ui/projectDetail/headerProject";
-import HeroHeader from "@/app/ui/projectDetail/herohead";
+import { DeleteTask } from "@/features/task/api";
+import type { Project } from "../../../../types/user"
+import Test from "../../../../components/ui/test"
+import { useProjectTasksStore } from "../../../../store/useProjectTasksStore"
+import HeaderProject from "@/components/ui/projectDetail/headerProject";
+import HeroHeader from "@/components/ui/projectDetail/herohead";
+import ModifTaskProject from "@/components/ui/projectDetail/modifiTaskProject";
 export default function projetIdDetails() {
     const { tasks, loading, error, fetchTasks } = useProjectTasksStore();
-    const { projects, userDetail, refreshAssignedTasks, refreshUserDetail } = useProtected();
+    const { projects, userDetail, refreshAssignedTasks, refreshUserDetail, refreshProjects } = useProtected();
 
     const [task, setTask] = useState<TaskProject[]>([]);
     const [pr, setpr] = useState<Project | undefined>(undefined);
@@ -110,17 +111,24 @@ export default function projetIdDetails() {
                                 <div className="flex flex-col gap-2">
 
                                     <div className="flex gap-2">
-                                        <p className="text-lg font-semibold">{e.title}</p>
+                                        <p className="font-semibold text-lg text-black">{e.title}</p>
                                         <Badge status={e.status} />
                                     </div>
                                     <p className="text-sm font-normal text-gray-600">{e.description}</p>
                                 </div>
-                                <div className="cursor-pointer flex items-center justify-center h-14 w-14 border-gray-200 border-1 rounded-xl text-xs">
-
-                                    <BsThreeDots className="" />
-                                </div>
+                                <ModifTaskProject
+                                    Autorised={
+                                        e.assignees.some(a => a.id === userDetail?.id) ||
+                                        pr?.owner.id === userDetail?.id
+                                    }
+                                    Delete={() => {
+                                        DeleteTask({ idProject: e.projectId, idTask: e.id });
+                                        refreshProjects();
+                                    }}
+                                />
+                                
                             </div>
-                            <p className="flex w-full items-center ">Echéance:  <CiCalendarDate /> {new Date(e.dueDate).getDate()} {new Date(e.dueDate).toLocaleString("fr-FR", { month: "long" })}</p>
+                            <p className="flex w-full items-center font-normal text-[12px] text-gray-600">Echéance:  <span className="flex gap-1 items-center font-normal text-[12px] text-black"><CiCalendarDate /> {new Date(e.dueDate).getDate()} {new Date(e.dueDate).toLocaleString("fr-FR", { month: "long" })}</span></p>
                             <div>
                                 <p>Assigné a : </p><div className="flex gap-2.5">{e.assignees.map((e) => (<p key={e.id}>{e.user.name.substring(0, 2).toUpperCase()} {e.user.name}</p>))}</div>
                             </div>

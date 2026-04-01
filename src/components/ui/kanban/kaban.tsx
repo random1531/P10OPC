@@ -1,6 +1,6 @@
 "use client"
 import CardTaskKanban from "../cardTask/caraTaskKanban"
-import { useProtected } from "../../context/ContextProvider"
+import { useProtected } from "../../../app/context/ContextProvider"
 
 export default function DashKanban() {
     const { tasks } = useProtected();
