@@ -15,7 +15,7 @@ export default function TaskGenerator({ idPorject }: { idPorject: string }) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [step, setStep] = useState<"input" | "loading" | "result">("input");
   const [error, setError] = useState("");
-  console.log(tasks);
+
 
   const handleSubmit = async () => {
     if (!text.trim()) return;

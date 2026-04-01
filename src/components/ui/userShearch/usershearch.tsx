@@ -16,12 +16,12 @@ export default function SearchUser({ userSelected, setUserSelected }:
         const fetchUsers = async () => {
             const result = await searchuserFc({ searchUse: useSh });
             SetUserFound(result.data?.users || []);
-            console.log(UserFound)
+        
         };
         fetchUsers();
     }, [useSh]);
 
-    console.log(userSelected)
+
 
     return (
         <div className="w-full">

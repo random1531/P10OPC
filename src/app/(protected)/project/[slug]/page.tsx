@@ -68,7 +68,7 @@ export default function projetIdDetails() {
             setTask(allTasks.filter((t) => t.title.toLowerCase().includes(value.toLowerCase())));
         }
     }
-    console.log(pr)
+ 
 
     return (
         <div className="flex flex-col items-center w-full relative pt-10 pb-10 pr-14 pl-14 gap-6">

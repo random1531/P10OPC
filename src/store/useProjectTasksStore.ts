@@ -17,6 +17,8 @@ export const useProjectTasksStore = create<ProjectTasksState>((set) => ({
     set({ loading: true, error: null });
     try {
       const result = await GetDetailsTaskProject({ id: projectId });
+      
+      
       set({
         tasks: result?.data?.tasks || [],
         loading: false,

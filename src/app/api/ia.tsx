@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       inputs: messages,
     });
 
-    // Adapte ce mapping selon la structure de la réponse Mistral
+   
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: "Erreur lors de la génération des tâches" });

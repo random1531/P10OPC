@@ -13,11 +13,11 @@ export async function LoginFunction({ email, password }: { email: string, passwo
     const data = await res.json();
     if (!res.ok) {
 
-      console.log(data.message)
+     
     };
     localStorage.setItem("token", data.data.token);
   
-    console.log(data);
+   
     return data;
   } catch (error) {
     console.log("Erreur lors de la connexion:", error);
@@ -37,7 +37,7 @@ export async function RegisterFunction({email,password,name}:{email:string,passw
       body: JSON.stringify(formData),
     });
     const data = await res.json();
-    console.log(data)
+  
     return data 
   } catch (error) {
 
