@@ -2,6 +2,7 @@
 import type { Comment } from "@/types/task"
 import type { Response } from "@/types/respons"
 
+
 export async function SendComments({ ProjectId, tasksID, comment }: { ProjectId: string, tasksID: string, comment: string }) {
     const token = localStorage.getItem("token")
     const formData = { content: comment }
@@ -15,9 +16,10 @@ export async function SendComments({ ProjectId, tasksID, comment }: { ProjectId:
             }, body: JSON.stringify(formData)
         })
         const result = await response.json()
+      
         return result
-    } catch (error : any) {
-return {
+    } catch (error: any) {
+        return {
             success: false,
             message: "erreur",
             error: error?.message

@@ -44,9 +44,9 @@ export default function setting() {
                           <InputFunction type="password" idvalue="password" labelText="Password" />
                     </div>
 
-                      
                     <button type="submit" className="text-lg bg-black rounded-xl text-white pt-3 pb-3 pr-5 pl-5 w-3xs" >Modifier les informations</button>
                 </form>
+                      <button onClick={()=> localStorage.clear()} >Déconnexion</button>
             </div>
 
         </div>
