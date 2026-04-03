@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 
-export default function HeaderDashProject({ useName }: { useName: string | undefined }) {
+export default function HeaderDashProject({ useName,open }: { useName: string | undefined,open: ()=> void }) {
     const pathname = usePathname();
     const Dash = pathname === '/dashboard';
     const Project = pathname === '/project';
@@ -20,7 +20,7 @@ export default function HeaderDashProject({ useName }: { useName: string | undef
                 </p>
             </div>
             <div className="">
-                <button className="flex gap-2.5 text-white rounded-[10px] pt-[13px] pr-[74px] pb-[13px] pl-[74px] bg-gray-800 cursor-pointer">
+                <button onClick={open} className="flex gap-2.5 text-white rounded-[10px] pt-[13px] pr-[74px] pb-[13px] pl-[74px] bg-gray-800 cursor-pointer">
                     + Créer un projet
                 </button>
             </div>

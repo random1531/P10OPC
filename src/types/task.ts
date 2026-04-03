@@ -11,8 +11,8 @@ export type Task = {
     creatorId: string,
     assignees: TaskAssignee[],
     comments: Comment[],
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: string,
+    updatedAt: string
 };
 
 
@@ -21,7 +21,7 @@ export type TaskAssignee = {
     userId: string,
     taskId: string,
     user: User,
-    assignedAt: Date
+    assignedAt: string
 }
 
 export type Comment = {
@@ -30,6 +30,6 @@ export type Comment = {
     authorId:string,
     taskId: string,
     author: User,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: string,
+    updatedAt: string
 }

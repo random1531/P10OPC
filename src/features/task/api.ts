@@ -1,9 +1,11 @@
-import type { Response} from "@/types/respons";
+import type { Response } from "@/types/respons";
 import type { Task } from "@/types/task";
+import { toast } from "sonner";
 
 
+type TasksData = { tasks: Task[] }
 //Obtenir les tâches d'un projet
-export async function GetDetailsTaskProject({ id }: { id: string }): Promise<Response<Task[]> |undefined> {
+export async function GetDetailsTaskProject({ id }: { id: string }): Promise<Response<TasksData>> {
     const token = localStorage.getItem("token");
     try {
         const reponse = await fetch(`http://localhost:8000/projects/${id}/tasks`, {
@@ -13,14 +15,18 @@ export async function GetDetailsTaskProject({ id }: { id: string }): Promise<Res
                 Authorization: `Bearer ${token}`,
             },
         });
-        const result: Response<Task[]> = await reponse.json();
+        const result: Response<TasksData> = await reponse.json();
         if (!reponse.ok) {
             throw new Error(result.message);
         }
         return result;
-    } catch (error) {
-        console.log(error);
-        return undefined;
+    } catch (error: any) {
+        console.log(Error);
+        return {
+            success: false,
+            message: "Erreur lors de la récupération des tâches",
+            error: error instanceof Error ? error.message : "Unknown error",
+        };
     }
 }
 
@@ -44,9 +50,14 @@ export async function AddTasksToproject(
 
         })
         const result = await response.json()
+        if (result.success) {
+            toast.success(result.message);
+        } else {
+            toast.error(result.message || "Erreur lors de l'ajout de la tâche");
+        }
         return result
     } catch (error) {
-
+        toast.error("Erreur")
     }
 }
 
@@ -63,7 +74,11 @@ export async function DeleteTask({ idProject, idTask }: { idProject: string, idT
             }
         })
         const result = await response.json()
-        alert("Tache supprimé")
+        if (result.success) {
+            toast.success(result.message);
+        } else {
+            toast.error(result.message || "Erreur lors de la suppression");
+        }
     } catch (error) {
 
     }

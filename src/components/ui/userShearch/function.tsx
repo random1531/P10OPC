@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function searchuserFc({ searchUse }: { searchUse: string }) {
     const token = localStorage.getItem("token")
     try {
@@ -12,6 +13,13 @@ export async function searchuserFc({ searchUse }: { searchUse: string }) {
 
         })
         const res = await response.json()
+        if (res.success) {
+
+            toast.success(res.message)
+        }
+        else{
+            toast.error(res.message)
+        }
         return res
 
     } catch (error) {

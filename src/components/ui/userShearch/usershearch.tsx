@@ -34,7 +34,7 @@ export default function SearchUser({ userSelected, setUserSelected }:
             />
             {Array.isArray(UserFound) && UserFound.map((e) => (
                 <div key={e.id}>
-                    <span className="h-2 w-full" onClick={() => setUserSelected(prev => [...prev, e.id])}>
+                    <span className="h-2 w-full" onClick={() => setUserSelected(prev => [...prev, e.email])}>
                         {e.name}
                     </span>
                     <hr />

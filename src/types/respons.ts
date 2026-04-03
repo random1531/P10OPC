@@ -3,7 +3,7 @@ export type ErrorDetail = {
   message: string;
 };
 
-export type Error = {
+export type ApError = {
   success: false;
   message: string;
   error: string;
@@ -16,4 +16,4 @@ export type Success<T> = {
   data: T;
 };
 
-export type Response<T> = Success<T> | Error;
+export type Response<T> = Success<T> | ApError;

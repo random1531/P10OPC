@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
-import { GetDetailsTaskProject, TaskProject } from "../../function"
+import { TaskProject } from "../../function"
+import { GetDetailsTaskProject } from "@/features/task/api"
 import { useProtected } from "../../../context/ContextProvider"
 import { FaChevronUp } from "react-icons/fa6";
 import { CiCalendarDate } from "react-icons/ci";
@@ -10,7 +11,8 @@ import ModalCreateTask from "@/components/ui/modal/CreatTask";
 import FormCreteTask from "./createTasks"
 import { SendComments } from "../../function"
 import { DeleteTask } from "@/features/task/api";
-import type { Project } from "../../../../types/user"
+import type { Task } from "@/types/task"
+import type { Project } from "../../../../types/project"
 import Test from "../../../../components/ui/test"
 import { useProjectTasksStore } from "../../../../store/useProjectTasksStore"
 import HeaderProject from "@/components/ui/projectDetail/headerProject";
@@ -20,9 +22,9 @@ export default function projetIdDetails() {
     const { tasks, loading, error, fetchTasks } = useProjectTasksStore();
     const { projects, userDetail, refreshAssignedTasks, refreshUserDetail, refreshProjects } = useProtected();
 
-    const [task, setTask] = useState<TaskProject[]>([]);
+    const [task, setTask] = useState<Task[]>([]);
     const [pr, setpr] = useState<Project | undefined>(undefined);
-    const [allTasks, setAllTasks] = useState<TaskProject[]>([]);
+    const [allTasks, setAllTasks] = useState<Task[]>([]);
     const [isOpen, setIsOpen] = useState<string | null>(null)
     const [opCreateTask, setopCreateTask] = useState<string | null>(null)
     const [iaTask, setIATask] = useState<string | null>(null)
@@ -35,8 +37,12 @@ export default function projetIdDetails() {
     useEffect(() => {
         if (typeof projectId === "string" && projectId.length > 0) {
             GetDetailsTaskProject({ id: projectId }).then((result) => {
-                setAllTasks(result?.data?.tasks ?? []);
-                setTask(result?.data?.tasks ?? []);
+                if (result.success) {
+                    setAllTasks(result.data.tasks);
+                    setTask(result.data.tasks);
+                } else {
+
+                }
                 setIdp(projectId)
                 setpr(projects.find((e) => e.id === projectId));
             }).catch((err) => {
@@ -68,10 +74,10 @@ export default function projetIdDetails() {
             setTask(allTasks.filter((t) => t.title.toLowerCase().includes(value.toLowerCase())));
         }
     }
- 
+
 
     return (
-        <div className="flex flex-col items-center w-full relative pt-10 pb-10 pr-14 pl-14 gap-6">
+        <div className="flex flex-col items-center w-full relative pt-6 pb-8 px-4 sm:px-6 md:px-8 lg:px-14 gap-6">
             <HeroHeader
                 ProjectDescription={pr?.description}
                 ProjectName={pr?.name}
@@ -86,27 +92,39 @@ export default function projetIdDetails() {
             {iaTask && <ModalCreateTask onClose={() => setIATask(null)} children={<Test idPorject={idp} />} />}
             {opCreateTask && <ModalCreateTask onClose={() => setopCreateTask(null)} children={<FormCreteTask />} />}
 
-            <div className="flex flex-col w-full gap-2.5 bg-white pt-5 pb-5 pr-12 pl-12">
-                <div className="w-full flex justify-between">
+            <div className="flex flex-col w-full gap-4 bg-white py-5 px-4 sm:px-6 md:px-8 lg:px-12 rounded-xl">
+                <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-col">
-                        <p>Tâches</p>
-                        <p>Par ordre de priorité</p>
+                        <p className="text-lg font-semibold">Tâches</p>
+                        <p className="text-sm text-gray-500">Par ordre de priorité</p>
                     </div>
-                    <div>
 
-                        <select onChange={handleChange} name="" id="">
-                            <option value=""></option>
+                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <select
+                            onChange={handleChange}
+                            className="border rounded-lg px-3 py-2 w-full sm:w-44"
+                        >
+                            <option value="">Tous les statuts</option>
                             <option value="TODO">A faire</option>
                             <option value="DONE">Terminer</option>
                             <option value="IN_PROGRESS">En cours</option>
                         </select>
-                        <input type="search" onChange={handleSearch} className="border-1" name="" id="" />
+
+                        <input
+                            type="search"
+                            onChange={handleSearch}
+                            placeholder="Rechercher une tâche"
+                            className="border rounded-lg px-3 py-2 w-full sm:w-56"
+                        />
                     </div>
                 </div>
-                {tasks.map((e) => (
-                    <div key={e.id} className="flex flex-col w-full gap-6 bg-white rounded-xl border-gray-100 border-2 pt-6 pb-6 pr-10 pl-10">
+                {task.map((e) => (
+                    <div
+                        key={e.id}
+                        className="flex flex-col w-full gap-6 bg-white rounded-xl border-gray-100 border-2 py-5 px-4 sm:px-6 md:px-8"
+                    >
                         <div className="flex flex-col w-full gap-6">
-                            <div className="flex justify-between">
+                            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
 
                                 <div className="flex flex-col gap-2">
 
@@ -118,7 +136,7 @@ export default function projetIdDetails() {
                                 </div>
                                 <ModifTaskProject
                                     Autorised={
-                                        e.assignees.some(a => a.id === userDetail?.id) ||
+                                        e.assignees.some(a => a.user.id === userDetail?.id) ||
                                         pr?.owner.id === userDetail?.id
                                     }
                                     Delete={() => {
@@ -126,7 +144,7 @@ export default function projetIdDetails() {
                                         refreshProjects();
                                     }}
                                 />
-                                
+
                             </div>
                             <p className="flex w-full items-center font-normal text-[12px] text-gray-600">Echéance:  <span className="flex gap-1 items-center font-normal text-[12px] text-black"><CiCalendarDate /> {new Date(e.dueDate).getDate()} {new Date(e.dueDate).toLocaleString("fr-FR", { month: "long" })}</span></p>
                             <div>
