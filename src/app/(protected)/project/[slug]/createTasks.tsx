@@ -4,7 +4,9 @@ import { useParams } from "next/navigation";
 import Inputseach from "../../../../components/ui/userShearch/usershearch"
 import { useProjectTasksStore } from "@/store/useProjectTasksStore"
 import { toast } from "sonner";
-
+import { useProjectStore } from "@/store/useProjectStore";
+import { Project } from "@/types/project";
+import UserAddToTasks from "@/components/ui/userShearch/userAddToTask/userAddToTasks";
 
 export default function createTasks() {
     const { fetchTasks } = useProjectTasksStore();
@@ -18,8 +20,13 @@ export default function createTasks() {
     const [priority, setPriority] = useState("")
     const [assigneeIds, setAssigneeIds] = useState<string[]>([])
     const [message, setMessage] = useState("")
+    const { projects, loading, error, fetchProjects } = useProjectStore();
+    const [acProject, setAcproject] = useState<Project>()
 
-
+    useEffect(() => {
+        fetchProjects();
+        setAcproject(projects.find((e) => e.id === normalizedId))
+    }, [projects, normalizedId])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,7 +37,7 @@ export default function createTasks() {
             await fetchTasks(id);
             toast.success(result.message)
         } else if (result && result.data && Array.isArray(result.data.errors)) {
-           
+
             setMessage(result.data.errors.map((err: any) => err.message).join(" | "));
         } else if (result && result.message) {
             setMessage(result.message);
@@ -59,10 +66,10 @@ export default function createTasks() {
                     <label className="text-sm" htmlFor="dueDate">Date</label>
                     <input onChange={(e) => setDueDate(new Date(e.target.value).toISOString())} id="dueDate" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border-1 border-gray-400 bg-white" type="date" />
                 </div>
-                
-                  <Inputseach userSelected={assigneeIds} setUserSelected={setAssigneeIds} />
+                <UserAddToTasks userMap={acProject?.members} />
+              
                 {message}
-                <button type="submit">Crée</button>
+                <button className="rounded-[10px] py-[13px] px-[74px] bg-black text-white disabled:bg-[#E5E7EB] disabled:text-[#E5E7EB]" type="submit">+ Ajouter une tâche</button>
             </form>
         </div>
     )

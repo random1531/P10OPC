@@ -7,15 +7,19 @@ import { useState } from "react";
 import DashList from "@/components/ui/liste/liste";
 import DashKanban from "@/components/ui/kanban/kaban";
 import HeaderDashProject from "@/components/headerDashProject";
+import CreatProject from "@/components/ui/form/project";
+import ModalCreateTask from "@/components/ui/modal/CreatTask";
 
 export default function Dashboard() {
     const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();
     const [viewMode, setViewMode] = useState<"list" | "kanban">("list")
     const [active, setActive] = useState("list")
+    const [isOpen, setIsOpen] = useState<string | null>(null)
 
     return (
         <div className="flex flex-col gap-9 mt-24 w-7xl pr-14 pl-14 pt-10 pb-10">
-            <HeaderDashProject useName={userDetail?.name} />
+            <HeaderDashProject open={() => setIsOpen("open")} useName={userDetail?.name} />
+            {isOpen && <ModalCreateTask onClose={() => setIsOpen(null)} children={<CreatProject onClose={() => setIsOpen(null)} />} />}
             <div className="flex items-center gap-2.5">
                 <div>
 

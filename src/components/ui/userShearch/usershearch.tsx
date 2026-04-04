@@ -16,7 +16,7 @@ export default function SearchUser({ userSelected, setUserSelected }:
         const fetchUsers = async () => {
             const result = await searchuserFc({ searchUse: useSh });
             SetUserFound(result.data?.users || []);
-        
+
         };
         fetchUsers();
     }, [useSh]);
