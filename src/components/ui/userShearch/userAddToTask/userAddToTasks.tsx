@@ -1,19 +1,27 @@
 import { ProjectMember } from "@/types/user";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
-export default function UserAddToTasks({ userMap }: { userMap?: ProjectMember[] }) {
+interface UserAddToTasksProps {
+    userMap?: ProjectMember[];
+    onSelectionChange?: (selectedIds: string[]) => void;
+}
+
+export default function UserAddToTasks({ userMap, onSelectionChange }: UserAddToTasksProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedUsers, setSelectedUsers] = useState<string[]>([])
+
+
+    useEffect(() => {
+        onSelectionChange?.(selectedUsers);
+    }, [selectedUsers, onSelectionChange])
 
     const handleClick = () => setIsOpen(!isOpen)
 
     const handleSelect = (userId: string) => {
         if (selectedUsers.includes(userId)) {
-
             setSelectedUsers(selectedUsers.filter(id => id !== userId))
         } else {
-
             setSelectedUsers([...selectedUsers, userId])
         }
     }

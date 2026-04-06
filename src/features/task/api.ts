@@ -83,3 +83,34 @@ export async function DeleteTask({ idProject, idTask }: { idProject: string, idT
 
     }
 }
+
+//taksAssignée
+type AssignedTask = { takssAssigned: Task[] }
+
+export async function AssignedTasks() {
+    const token = localStorage.getItem("token")
+    try {
+        const response = await fetch(
+            "http://localhost:8000/dashboard/assigned-tasks",
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+
+        );
+        const result: Response<AssignedTask> = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message);
+        }
+        return result;
+    } catch (error: any) {
+        return {
+            success: false,
+            message: "Erreur lors de la récupération des tâches",
+            error: error instanceof Error ? error.message : "Unknown error",
+        };
+    }
+}

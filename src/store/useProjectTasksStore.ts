@@ -50,7 +50,7 @@ export const useProjectTasksStore = create<ProjectTasksState>()(
           await DeleteTask({ idProject, idTask })
           set({ loading: false })
           toast.success("Tâche supprimée avec succès");
-          // Optionally remove the task from local state
+        
           set((state) => ({
             tasks: state.tasks.filter((task) => task.id !== idTask),
           }));
@@ -76,11 +76,14 @@ export const useProjectTasksStore = create<ProjectTasksState>()(
                 set({ loading: false });
               }
             }
+            toast.success("Tâche créée avec succès");
           } else {
             set({ loading: false, error: result?.message });
+            toast.error(result?.message || "Erreur lors de la création de la tâche");
           }
         } catch (error: any) {
           set({ loading: false, error: error?.message || "Erreur lors de l'ajout de la tâche" });
+          toast.error(error?.message || "Erreur lors de l'ajout de la tâche");
         }
       },
 

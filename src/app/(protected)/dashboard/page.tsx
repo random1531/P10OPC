@@ -8,7 +8,7 @@ import DashList from "@/components/ui/liste/liste";
 import DashKanban from "@/components/ui/kanban/kaban";
 import HeaderDashProject from "@/components/headerDashProject";
 import CreatProject from "@/components/ui/form/project";
-import ModalCreateTask from "@/components/ui/modal/CreatTask";
+import ModalCreateTask from "@/components/ui/modal/ModalProps";
 
 export default function Dashboard() {
     const { tasks, userDetail, loading, error, refreshAssignedTasks, refreshUserDetail } = useProtected();

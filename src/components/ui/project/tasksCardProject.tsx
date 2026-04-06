@@ -7,7 +7,7 @@ import type { Task } from "@/types/task";
 import Badge from "../badge/badge";
 import { DeleteTask } from "@/features/task/api";
 import { useProtected } from "@/app/context/ContextProvider";
-
+import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 interface TasksCardProjectProps {
     task: Task;
     isOpen: string | null;
@@ -15,17 +15,16 @@ interface TasksCardProjectProps {
     projectId: string;
     ownerId?: string;
 }
-
-export default function TasksCardProject({ 
-    task, 
-    isOpen, 
-    setIsOpen, 
+export default function TasksCardProject({
+    task,
+    isOpen,
+    setIsOpen,
     projectId,
-    ownerId 
+    ownerId
 }: TasksCardProjectProps) {
     const { userDetail, refreshProjects } = useProtected();
-
-    const isAuthorised = 
+    const { deleteTask } = useProjectTasksStore()
+    const isAuthorised =
         task.assignees.some(a => a.user.id === userDetail?.id) ||
         ownerId === userDetail?.id;
 
@@ -34,8 +33,8 @@ export default function TasksCardProject({
     };
 
     const handleDelete = async () => {
-        await DeleteTask({ idProject: task.projectId, idTask: task.id });
-        refreshProjects();
+        await deleteTask(task.projectId, task.id);
+
     };
 
     const formattedDate = `${new Date(task.dueDate).getDate()} ${new Date(task.dueDate).toLocaleString("fr-FR", { month: "long" })}`;
@@ -43,7 +42,7 @@ export default function TasksCardProject({
     return (
         <div className="flex flex-col w-full gap-6 bg-white rounded-xl border-gray-100 border-2 py-5 px-4 sm:px-6 md:px-8">
             <div className="flex flex-col w-full gap-6">
-            
+
                 <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
                     <div className="flex flex-col gap-2">
                         <div className="flex gap-2">
@@ -58,7 +57,7 @@ export default function TasksCardProject({
                     />
                 </div>
 
-            
+
                 <p className="flex w-full items-center font-normal text-[12px] text-gray-600">
                     Échéance:{" "}
                     <span className="flex gap-1 items-center font-normal text-[12px] text-black">
@@ -66,7 +65,7 @@ export default function TasksCardProject({
                     </span>
                 </p>
 
-        
+
                 <div>
                     <p>Assigné à :</p>
                     <div className="flex gap-2.5">
@@ -80,7 +79,7 @@ export default function TasksCardProject({
 
                 <hr />
 
- 
+
                 <div className="flex justify-between">
                     <p>Commentaires ({task.comments.length})</p>
                     <FaChevronUp
@@ -90,7 +89,7 @@ export default function TasksCardProject({
                 </div>
             </div>
 
-       
+
             {isOpen === task.id && (
                 <div className="flex flex-col gap-4">
                     {task.comments.map((comment, index) => (

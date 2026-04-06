@@ -5,6 +5,7 @@ type HeroHeaderProps = {
   ProjectDescription: string | undefined;
   onCreateTask: () => void;
   onCreateIATask: () => void;
+  OpenModifProject: () => void
 };
 
 export default function HeroHeader({
@@ -12,14 +13,18 @@ export default function HeroHeader({
   ProjectDescription,
   onCreateTask,
   onCreateIATask,
+  OpenModifProject,
 }: HeroHeaderProps) {
   return (
     <div className="w-full flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
       <div className="flex flex-col gap-2 max-w-full md:max-w-2xl">
-        <p className="font-sans font-semibold text-2xl sm:text-3xl text-[#1F1F1F] break-words">
-          {ProjectName}
-        </p>
-        <p className="font-sans font-normal text-sm sm:text-base md:text-lg text-gray-500 break-words">
+        <div className="flex gap-2 items-center">
+          <p className="font-sans font-semibold text-2xl sm:text-3xl text-[#1F1F1F] wrap-break-words">
+            {ProjectName}
+          </p>
+          <p className="text-[#D3590B] underline cursor-pointer" onClick={OpenModifProject} >Modifier</p>
+        </div>
+        <p className="font-sans font-normal text-sm sm:text-base md:text-lg text-gray-500 wrap-break-words">
           {ProjectDescription}
         </p>
       </div>

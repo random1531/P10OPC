@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { useProtected } from "../../../context/ContextProvider"
 import { useParams } from "next/navigation";
-import ModalCreateTask from "@/components/ui/modal/CreatTask";
+import ModalCreateTask from "@/components/ui/modal/ModalProps";
 import FormCreteTask from "./createTasks"
 import type { Task } from "@/types/task"
 import type { Project } from "../../../../types/project"
@@ -12,72 +12,82 @@ import HeaderProject from "@/components/ui/projectDetail/headerProject";
 import HeroHeader from "@/components/ui/projectDetail/herohead";
 import TasksCardProject from "@/components/ui/project/tasksCardProject";
 
-export default function projetIdDetails() {
+export default function ProjetIdDetails() {
     const { tasks, loading, error, fetchTasks, addComment } = useProjectTasksStore();
-    const { projects, userDetail, refreshProjects } = useProtected();
+    const { projects } = useProtected();
 
-    const [task, setTask] = useState<Task[]>([]);
-    const [pr, setpr] = useState<Project | undefined>(undefined);
+    const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
     const [allTasks, setAllTasks] = useState<Task[]>([]);
-    const [isOpen, setIsOpen] = useState<string | null>(null)
-    const [opCreateTask, setopCreateTask] = useState<string | null>(null)
-    const [iaTask, setIATask] = useState<string | null>(null)
-
-    const [idp, setIdp] = useState<string>("")
+    const [currentProject, setCurrentProject] = useState<Project | undefined>(undefined);
+    const [openCommentId, setOpenCommentId] = useState<string | null>(null);
+    const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
+    const [isIATaskOpen, setIsIATaskOpen] = useState(false);
+    const [isProjectOpen,setIsProjectOpen]=useState(false)
     const params = useParams();
     const slug = params.slug;
-    const projectId = Array.isArray(slug) ? slug[0] : slug;
+    const projectId = Array.isArray(slug) ? slug[0] : slug ?? "";
 
     useEffect(() => {
-        if (typeof projectId === "string" && projectId.length > 0) {
+        if (projectId) {
             fetchTasks(projectId);
-            setIdp(projectId);
         }
     }, [projectId, fetchTasks]);
 
     useEffect(() => {
-        if (typeof projectId === "string") {
-            setpr(projects.find((e) => e.id === projectId));
+        if (projectId) {
+            setCurrentProject(projects.find((p) => p.id === projectId));
         }
     }, [projectId, projects]);
 
-
     useEffect(() => {
         setAllTasks(tasks);
-        setTask(tasks);
+        setFilteredTasks(tasks);
     }, [tasks]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = e.target.value;
-        if (value === "") {
-            setTask(allTasks);
+    const handleStatusFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value;
+        if (status === "") {
+            setFilteredTasks(allTasks);
         } else {
-            setTask(allTasks.filter((t) => t.status === value));
+            setFilteredTasks(allTasks.filter((t) => t.status === status));
         }
     };
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (value === null) {
-            setTask(allTasks);
+
+    const handleSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchTerm = e.target.value.toLowerCase();
+        if (!searchTerm) {
+            setFilteredTasks(allTasks);
         } else {
-            setTask(allTasks.filter((t) => t.title.toLowerCase().includes(value.toLowerCase())));
+            setFilteredTasks(allTasks.filter((t) => t.title.toLowerCase().includes(searchTerm)));
         }
-    }
+    };
+
     return (
         <div className="flex flex-col items-center w-full relative pt-6 pb-8 px-4 sm:px-6 md:px-8 lg:px-14 gap-6">
             <HeroHeader
-                ProjectDescription={pr?.description}
-                ProjectName={pr?.name}
-                onCreateTask={() => setopCreateTask("open")}
-                onCreateIATask={() => setIATask("open")}
+                OpenModifProject={() => setIsProjectOpen(true)}
+                ProjectDescription={currentProject?.description}
+                ProjectName={currentProject?.name}
+                onCreateTask={() => setIsCreateTaskOpen(true)}
+                onCreateIATask={() => setIsIATaskOpen(true)}
             />
             <HeaderProject
-                contributornb={((pr?.members?.length ?? 0) + 1).toString()}
-                owner={pr?.owner}
-                members={pr?.members}
+                contributornb={((currentProject?.members?.length ?? 0) + 1).toString()}
+                owner={currentProject?.owner}
+                members={currentProject?.members}
             />
-            {iaTask && <ModalCreateTask onClose={() => setIATask(null)} children={<Test idPorject={idp} />} />}
-            {opCreateTask && <ModalCreateTask onClose={() => setopCreateTask(null)} children={<FormCreteTask />} />}
+
+            {isIATaskOpen && (
+                <ModalCreateTask onClose={() => setIsIATaskOpen(false)}>
+                    <Test idPorject={projectId} />
+                </ModalCreateTask>
+            )}
+            {isCreateTaskOpen && (
+                <ModalCreateTask onClose={() => setIsCreateTaskOpen(false)}>
+                    <FormCreteTask />
+                </ModalCreateTask>
+            )}
+            {isProjectOpen && <ModalCreateTask onClose={()=>setIsProjectOpen(false)}/> }
 
             <div className="flex flex-col w-full gap-4 bg-white py-5 px-4 sm:px-6 md:px-8 lg:px-12 rounded-xl">
                 <div className="w-full flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -88,34 +98,35 @@ export default function projetIdDetails() {
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                         <select
-                            onChange={handleChange}
+                            onChange={handleStatusFilter}
                             className="border rounded-lg px-3 py-2 w-full sm:w-44"
                         >
                             <option value="">Tous les statuts</option>
                             <option value="TODO">A faire</option>
-                            <option value="DONE">Terminer</option>
+                            <option value="DONE">Terminé</option>
                             <option value="IN_PROGRESS">En cours</option>
                         </select>
 
                         <input
                             type="search"
-                            onChange={handleSearch}
+                            onChange={handleSearchFilter}
                             placeholder="Rechercher une tâche"
                             className="border rounded-lg px-3 py-2 w-full sm:w-56"
                         />
                     </div>
                 </div>
-                {task.map((e) => (
+
+                {filteredTasks.map((task) => (
                     <TasksCardProject
-                        key={e.id}
-                        task={e}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        projectId={idp}
-                        ownerId={pr?.owner.id}
+                        key={task.id}
+                        task={task}
+                        isOpen={openCommentId}
+                        setIsOpen={setOpenCommentId}
+                        projectId={projectId}
+                        ownerId={currentProject?.owner.id}
                     />
                 ))}
             </div>
-        </div >
+        </div>
     );
 }

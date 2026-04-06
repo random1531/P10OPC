@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider"
 import { GetDetailsTaskProject } from "../../../features/task/api"
 import { useRouter } from "next/navigation"
-import ModalCreateTask from "../../../components/ui/modal/CreatTask"
+import ModalCreateTask from "../../../components/ui/modal/ModalProps"
 import CreatProject from "@/components/ui/form/project";
 import HeaderDashProject from "@/components/headerDashProject";
 import ProjectCard from "../../../components/ui/project/projets"

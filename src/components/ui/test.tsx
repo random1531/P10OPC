@@ -76,7 +76,7 @@ export default function TaskGenerator({ idPorject }: { idPorject: string }) {
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Ex: Préparer la réunion demain et envoyer le compte rendu vendredi"
-              className="gap-[10px] rounded-[80px] pt-[18px] pr-8 pb-[18px] pl-8 w-full bg-gray-50"
+              className="gap-2.5 rounded-[80px] pt-4.5 pr-8 pb-4.5 pl-8 w-full bg-gray-50"
 
             />
             <HiSparkles onClick={handleSubmit} className="text-orange-400 flex items-center justify-center absolute right-2 top-4 w-6 h-6" />
@@ -103,6 +103,7 @@ export default function TaskGenerator({ idPorject }: { idPorject: string }) {
           </div>
           {tasks.map((task, index) => (
             <IaTask
+              handleDelete={() => setTasks(tasks.filter((t) => t.title !== task.title))}
               key={index}
               TaskName={task.title}
               Description={task.description}
