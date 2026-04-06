@@ -10,25 +10,25 @@ export default function UserAddToTasks({ userMap }: { userMap?: ProjectMember[] 
 
     const handleSelect = (userId: string) => {
         if (selectedUsers.includes(userId)) {
-            // Si déjà sélectionné, on le retire
+
             setSelectedUsers(selectedUsers.filter(id => id !== userId))
         } else {
-            // Sinon on l'ajoute
+
             setSelectedUsers([...selectedUsers, userId])
         }
     }
 
     return (
-        <div className="rounded-[4px] h-auto border border-gray-200 py-[19px] px-[17px]">
-            <div className="flex w-full justify-between">
+        <div className="rounded-sm h-12 border border-gray-200 py-4 px-3 relative z-0">
+            <div className="flex w-full justify-between h-12">
                 <p>{selectedUsers.length === 0 ? 'Choisir un ou plusieurs collaborateurs' : `${selectedUsers.length} sélectionné(s)`}</p>
                 <FaChevronDown onClick={handleClick} />
             </div>
             {isOpen && (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 absolute z-20 top-full left-0 w-full  border border-gray-200 bg-white">
                     {userMap?.map((item) => (
-                        <span 
-                            key={item.user.id} 
+                        <span
+                            key={item.user.id}
                             onClick={() => handleSelect(item.user.id)}
                             className={`cursor-pointer ${selectedUsers.includes(item.user.id) ? 'font-bold text-blue-600' : ''}`}
                         >

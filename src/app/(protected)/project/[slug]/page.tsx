@@ -1,24 +1,16 @@
 "use client"
 import { useEffect, useState } from "react"
-import { GetDetailsTaskProject } from "@/features/task/api"
 import { useProtected } from "../../../context/ContextProvider"
-import { FaChevronUp } from "react-icons/fa6";
-import { CiCalendarDate } from "react-icons/ci";
 import { useParams } from "next/navigation";
-import Badge from "@/components/ui/badge/badge";
 import ModalCreateTask from "@/components/ui/modal/CreatTask";
 import FormCreteTask from "./createTasks"
-import { SendComments } from "../../function"
-import { DeleteTask } from "@/features/task/api";
 import type { Task } from "@/types/task"
 import type { Project } from "../../../../types/project"
 import Test from "../../../../components/ui/test"
 import { useProjectTasksStore } from "../../../../store/useProjectTasksStore"
 import HeaderProject from "@/components/ui/projectDetail/headerProject";
 import HeroHeader from "@/components/ui/projectDetail/herohead";
-import ModifTaskProject from "@/components/ui/projectDetail/modifiTaskProject";
-import Comments from "@/components/ui/task/comments/comments";
-import AddCommentsToTask from "@/components/ui/task/comments/addComments";
+import TasksCardProject from "@/components/ui/project/tasksCardProject";
 
 export default function projetIdDetails() {
     const { tasks, loading, error, fetchTasks, addComment } = useProjectTasksStore();
@@ -114,57 +106,14 @@ export default function projetIdDetails() {
                     </div>
                 </div>
                 {task.map((e) => (
-                    <div
+                    <TasksCardProject
                         key={e.id}
-                        className="flex flex-col w-full gap-6 bg-white rounded-xl border-gray-100 border-2 py-5 px-4 sm:px-6 md:px-8"
-                    >
-                        <div className="flex flex-col w-full gap-6">
-                            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex gap-2">
-                                        <p className="font-semibold text-lg text-black">{e.title}</p>
-                                        <Badge status={e.status} />
-                                    </div>
-                                    <p className="text-sm font-normal text-gray-600">{e.description}</p>
-                                </div>
-                                <ModifTaskProject
-                                    Autorised={
-                                        e.assignees.some(a => a.user.id === userDetail?.id) ||
-                                        pr?.owner.id === userDetail?.id
-                                    }
-                                    Delete={() => {
-                                        DeleteTask({ idProject: e.projectId, idTask: e.id });
-                                        refreshProjects();
-                                    }}
-                                />
-                            </div>
-                            <p className="flex w-full items-center font-normal text-[12px] text-gray-600">Echéance:  <span className="flex gap-1 items-center font-normal text-[12px] text-black"><CiCalendarDate /> {new Date(e.dueDate).getDate()} {new Date(e.dueDate).toLocaleString("fr-FR", { month: "long" })}</span></p>
-                            <div>
-                                <p>Assigné a : </p><div className="flex gap-2.5">{e.assignees.map((e) => (<p key={e.id}>{e.user.name.substring(0, 2).toUpperCase()} {e.user.name}</p>))}</div>
-                            </div>
-                            <hr />
-                            <div className="flex justify-between">
-                                <p >Commentaire ({e.comments.length})</p>
-                                <FaChevronUp
-                                    onClick={() => setIsOpen(isOpen === e.id ? null : e.id)}
-                                    className={`cursor-pointer transition-transform duration-200 ${isOpen === e.id ? "rotate-180" : ""}`}
-                                />
-                            </div>
-                        </div>
-
-                        {isOpen === e.id && <div className="flex flex-col gap-4">{e.comments.map((comment, index) => (
-                            <Comments
-                                key={comment?.id || `comment-${index}`}
-                                comment={comment}
-                                currentUserId={userDetail?.id}
-                                taskId={e.id}
-                                projectId={e.projectId}
-                            />
-                        ))}
-                            <AddCommentsToTask projectId={idp} taskId={e.id} />
-                        </div>}
-
-                    </div>
+                        task={e}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        projectId={idp}
+                        ownerId={pr?.owner.id}
+                    />
                 ))}
             </div>
         </div >

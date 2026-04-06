@@ -20,7 +20,7 @@ export default function HeaderDashProject({ useName,open }: { useName: string | 
                 </p>
             </div>
             <div className="">
-                <button onClick={open} className="flex gap-2.5 text-white rounded-[10px] pt-[13px] pr-[74px] pb-[13px] pl-[74px] bg-gray-800 cursor-pointer">
+                <button onClick={open} className="flex gap-2.5 text-white rounded-[10px] pt-3.25 pr-18.5 pb-3.25 pl-18.5 bg-gray-800 cursor-pointer">
                     + Créer un projet
                 </button>
             </div>

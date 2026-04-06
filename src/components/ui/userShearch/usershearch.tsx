@@ -6,8 +6,6 @@ export default function SearchUser({ userSelected, setUserSelected }:
     const [useSh, setUseSh] = useState<string>("");
     const [UserFound, SetUserFound] = useState<User[]>([]);
 
-
-
     useEffect(() => {
         if (useSh.trim().length < 2) {
             SetUserFound([]);
@@ -16,7 +14,6 @@ export default function SearchUser({ userSelected, setUserSelected }:
         const fetchUsers = async () => {
             const result = await searchuserFc({ searchUse: useSh });
             SetUserFound(result.data?.users || []);
-
         };
         fetchUsers();
     }, [useSh]);
@@ -41,6 +38,7 @@ export default function SearchUser({ userSelected, setUserSelected }:
                 </div>
             ))}
 
+            {userSelected.length === 0 ? (<></>) : (<div>{userSelected.map((e) => (<p key={e}>{e}</p>))}</div>)}
         </div>
     );
 }

@@ -27,7 +27,7 @@ export default function LoginForm() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="text-black border-1 border-gray-300 p-2 w-full rounded-xs"
+          className="text-black border border-gray-300 p-2 w-full rounded-xs"
         />
       </div>
       <div>

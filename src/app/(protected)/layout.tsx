@@ -13,7 +13,7 @@ export default function ProtectedLayout({
 }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
- 
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,7 +32,7 @@ export default function ProtectedLayout({
       <Header />
 
       {children}
-       <Toaster position="top-right" richColors />
+      <Toaster position="top-right" richColors />
     </ProtectedProvider>
   </>;
 }

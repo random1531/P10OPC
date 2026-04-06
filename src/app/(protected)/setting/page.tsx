@@ -37,7 +37,7 @@ export default function setting() {
 
                         <div className="flex flex-col gap-3">
                             <label htmlFor="prenom">Prénom</label>
-                            <input id="prenom" className="h-14 rounded-sm pt-5 pb-5 pr-4 pl-4 border-1 border-gray-400 bg-white" type="text" />
+                            <input id="prenom" className="h-14 rounded-sm pt-5 pb-5 pr-4 pl-4 border border-gray-400 bg-white" type="text" />
                         </div>
                         <InputFunction valueInput={email} type="text" idvalue="email" labelText="Email" onchange={(e) => setEmail(e.target.value)} />
 

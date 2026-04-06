@@ -25,14 +25,14 @@ export default function Dashboard() {
 
                     <button
                         onClick={() => { setViewMode("list"); setActive("list") }}
-                        className={`flex items-center gap-2.5 ${active === "list" ? ("bg-[#FFE8D9]") : ("bg-white")} text-[#D3590B] rounded-lg px-4 py-[14px] font-sans font-normal text-sm cursor-pointer`}>
+                        className={`flex items-center gap-2.5 ${active === "list" ? ("bg-[#FFE8D9]") : ("bg-white")} text-[#D3590B] rounded-lg px-4 py-3.5 font-sans font-normal text-sm cursor-pointer`}>
                         <GoChecklist />
                         Liste</button>
                 </div>
                 <div className="flex gap-1 items-center justify-center">
                     <button
                         onClick={() => { setViewMode("kanban"); setActive("kaban") }}
-                        className={`flex items-center gap-2.5 ${active === "kaban" ? ("bg-[#FFE8D9]") : ("bg-white")} text-[#D3590B] rounded-lg px-4 py-[14px] font-sans font-normal text-sm cursor-pointer`}>
+                        className={`flex items-center gap-2.5 ${active === "kaban" ? ("bg-[#FFE8D9]") : ("bg-white")} text-[#D3590B] rounded-lg px-4 py-3.5 font-sans font-normal text-sm cursor-pointer`}>
                         <MdOutlineViewKanban />
                         Kanban</button>
                 </div>

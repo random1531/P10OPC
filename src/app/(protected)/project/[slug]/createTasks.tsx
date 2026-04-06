@@ -49,27 +49,27 @@ export default function createTasks() {
     };
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-8">
             <h2>Créer une tâche</h2>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6" action="">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4" action="">
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                     <label className="text-sm" htmlFor="title">Titre</label>
-                    <input onChange={(e) => setTitle(e.target.value)} id="title" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border-1 border-gray-400 bg-white" type="text" />
+                    <input onChange={(e) => setTitle(e.target.value)} id="title" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border border-gray-400 bg-white" type="text" />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                     <label htmlFor="description">Description</label>
-                    <input onChange={(e) => setDescription(e.target.value)} id="description" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border-1 border-gray-400 bg-white" type="text" />
+                    <input onChange={(e) => setDescription(e.target.value)} id="description" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border border-gray-400 bg-white" type="text" />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                     <label className="text-sm" htmlFor="dueDate">Date</label>
-                    <input onChange={(e) => setDueDate(new Date(e.target.value).toISOString())} id="dueDate" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border-1 border-gray-400 bg-white" type="date" />
+                    <input onChange={(e) => setDueDate(new Date(e.target.value).toISOString())} id="dueDate" className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border border-gray-400 bg-white" type="date" />
                 </div>
                 <UserAddToTasks userMap={acProject?.members} />
               
                 {message}
-                <button className="rounded-[10px] py-[13px] px-[74px] bg-black text-white disabled:bg-[#E5E7EB] disabled:text-[#E5E7EB]" type="submit">+ Ajouter une tâche</button>
+                <button className="rounded-[10px] py-3.25 px-18.5 bg-black text-white disabled:bg-[#E5E7EB] disabled:text-[#E5E7EB]" type="submit">+ Ajouter une tâche</button>
             </form>
         </div>
     )

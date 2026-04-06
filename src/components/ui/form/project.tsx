@@ -13,16 +13,17 @@ export default function CreatProject({ onClose }: { onClose: () => void }) {
         e.preventDefault()
         const success = await addProject(title, description, users)
         if (success) {
-            onClose() 
+            onClose()
         }
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <InputForm idvalue="titre" type="text" onchange={(e) => setTitle(e.target.value)} labelText="titre" valueInput={title} />
-            <InputForm idvalue="description" type="text" onchange={(e) => setDescription(e.target.value)} labelText="description" valueInput={description}/>
+            <h2 className="font-manrope font-semibold text-[24px]">Créer un projet</h2>
+            <InputForm idvalue="titre" type="text" onchange={(e) => setTitle(e.target.value)} labelText="Titre*" valueInput={title} />
+            <InputForm idvalue="description" type="text" onchange={(e) => setDescription(e.target.value)} labelText="Description*" valueInput={description} />
             <SearchUser userSelected={users} setUserSelected={setUsers} />
-            <button type="submit">Créer</button>
+            <button className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white " type="submit">Ajouter un projet</button>
         </form>
     )
 }
