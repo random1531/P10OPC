@@ -5,7 +5,7 @@ type HeroHeaderProps = {
   ProjectDescription: string | undefined;
   onCreateTask: () => void;
   onCreateIATask: () => void;
-  OpenModifProject: () => void
+  OpenModifProject: () => void;
 };
 
 export default function HeroHeader({
@@ -22,7 +22,12 @@ export default function HeroHeader({
           <p className="font-sans font-semibold text-2xl sm:text-3xl text-[#1F1F1F] wrap-break-words">
             {ProjectName}
           </p>
-          <p className="text-[#D3590B] underline cursor-pointer" onClick={OpenModifProject} >Modifier</p>
+          <p
+            className="text-[#D3590B] underline cursor-pointer"
+            onClick={OpenModifProject}
+          >
+            Modifier
+          </p>
         </div>
         <p className="font-sans font-normal text-sm sm:text-base md:text-lg text-gray-500 wrap-break-words">
           {ProjectDescription}

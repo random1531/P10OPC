@@ -1,29 +1,48 @@
-import { useState } from "react"
-import InputForm from "./input"
-import SearchUser from "../userShearch/usershearch"
-import { useProjectStore } from "@/store/useProjectStore"
+import { useState } from "react";
+import InputForm from "./input";
+import SearchUser from "../userShearch/usershearch";
+import { useProjectStore } from "@/store/useProjectStore";
 
 export default function CreatProject({ onClose }: { onClose: () => void }) {
-    const { addProject } = useProjectStore()
-    const [title, setTitle] = useState<string>("")
-    const [description, setDescription] = useState<string>("")
-    const [users, setUsers] = useState<string[]>([])
+  const { addProject } = useProjectStore();
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [users, setUsers] = useState<string[]>([]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        const success = await addProject(title, description, users)
-        if (success) {
-            onClose()
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const success = await addProject(title, description, users);
+    if (success) {
+      onClose();
     }
+  };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2 className="font-manrope font-semibold text-[24px]">Créer un projet</h2>
-            <InputForm idvalue="titre" type="text" onchange={(e) => setTitle(e.target.value)} labelText="Titre*" valueInput={title} />
-            <InputForm idvalue="description" type="text" onchange={(e) => setDescription(e.target.value)} labelText="Description*" valueInput={description} />
-            <SearchUser userSelected={users} setUserSelected={setUsers} />
-            <button className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white " type="submit">Ajouter un projet</button>
-        </form>
-    )
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2 className="font-manrope font-semibold text-[24px]">
+        Créer un projet
+      </h2>
+      <InputForm
+        idvalue="titre"
+        type="text"
+        onchange={(e) => setTitle(e.target.value)}
+        labelText="Titre*"
+        valueInput={title}
+      />
+      <InputForm
+        idvalue="description"
+        type="text"
+        onchange={(e) => setDescription(e.target.value)}
+        labelText="Description*"
+        valueInput={description}
+      />
+      <SearchUser userSelected={users} setUserSelected={setUsers} />
+      <button
+        className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white "
+        type="submit"
+      >
+        Ajouter un projet
+      </button>
+    </form>
+  );
 }

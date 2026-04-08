@@ -1,6 +1,12 @@
 // connexion function
 
-export async function LoginFunction({ email, password }: { email: string, password: string }) {
+export async function LoginFunction({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const formData = { email, password };
   try {
     const res = await fetch("http://localhost:8000/auth/login", {
@@ -12,12 +18,9 @@ export async function LoginFunction({ email, password }: { email: string, passwo
     });
     const data = await res.json();
     if (!res.ok) {
-
-     
-    };
+    }
     localStorage.setItem("token", data.data.token);
-  
-   
+
     return data;
   } catch (error) {
     console.log("Erreur lors de la connexion:", error);
@@ -26,10 +29,18 @@ export async function LoginFunction({ email, password }: { email: string, passwo
 
 // register Function
 
-export async function RegisterFunction({email,password,name}:{email:string,password:string,name:string}){
-  const formData = { email,password,name};
+export async function RegisterFunction({
+  email,
+  password,
+  name,
+}: {
+  email: string;
+  password: string;
+  name: string;
+}) {
+  const formData = { email, password, name };
   try {
-    const res = await fetch("http://localhost:8000/auth/register",{
+    const res = await fetch("http://localhost:8000/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,9 +48,7 @@ export async function RegisterFunction({email,password,name}:{email:string,passw
       body: JSON.stringify(formData),
     });
     const data = await res.json();
-  
-    return data 
-  } catch (error) {
 
-  }
+    return data;
+  } catch (error) {}
 }

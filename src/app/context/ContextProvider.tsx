@@ -8,10 +8,7 @@ import {
   ReactNode,
 } from "react";
 
-
-type Myproject = {
-
-}
+type Myproject = {};
 
 type UserDetail = {
   id: string;
@@ -19,7 +16,7 @@ type UserDetail = {
   name: string;
   createdAt: string;
   updatedAt: string;
-}
+};
 
 type User = {
   id: string;
@@ -71,7 +68,7 @@ type Task = {
   description: string;
   status: "TODO" | "IN_PROGRESS" | "DONE";
   priority: "LOW" | "MEDIUM" | "HIGH";
-  project: Project
+  project: Project;
   dueDate: string;
   projectId: string;
   creatorId: string;
@@ -92,7 +89,7 @@ type ProtectedContextType = {
 };
 
 const ProtectedContext = createContext<ProtectedContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function ProtectedProvider({ children }: { children: ReactNode }) {
@@ -135,11 +132,10 @@ export function ProtectedProvider({ children }: { children: ReactNode }) {
     }
   };
 
-
   const refreshUserDetail = async () => {
     try {
       setLoading(true);
-      setError(null)
+      setError(null);
       const token = localStorage.getItem("token");
       if (!token) {
         setError("Token introuvable");
@@ -151,13 +147,13 @@ export function ProtectedProvider({ children }: { children: ReactNode }) {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-        }
-      })
+        },
+      });
       const result = await reponse.json();
       if (!reponse) {
-        throw new Error(result.message || "Erreur lors de la récupération")
+        throw new Error(result.message || "Erreur lors de la récupération");
       }
-      SetUserDetail(result.data.user)
+      SetUserDetail(result.data.user);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -191,7 +187,7 @@ export function ProtectedProvider({ children }: { children: ReactNode }) {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const result = await response.json();

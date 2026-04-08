@@ -3,11 +3,11 @@ import { CiTrash } from "react-icons/ci";
 export default function iaTask({
   TaskName,
   Description,
-  handleDelete
+  handleDelete,
 }: {
   TaskName: string;
   Description: string;
-  handleDelete:()=>void
+  handleDelete: () => void;
 }) {
   return (
     <div className="flex flex-col w-full pt-6 pb-6 pr-10 pl-10 gap-8 border-gray-200 border rounded-xl">
@@ -17,7 +17,10 @@ export default function iaTask({
       </div>
       <div>
         <div className="flex w- full">
-          <div onClick={handleDelete} className="flex w-1/2 gap-1 items-center cursor-pointer">
+          <div
+            onClick={handleDelete}
+            className="flex w-1/2 gap-1 items-center cursor-pointer"
+          >
             <CiTrash />
             <p>Supprimer</p>
           </div>

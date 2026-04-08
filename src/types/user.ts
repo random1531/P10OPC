@@ -12,4 +12,3 @@ export type ProjectMember = {
   user: User;
   joinedAt: string;
 };
-

@@ -1,33 +1,35 @@
-"use client"
-import {RegisterFunction} from "../function"
-import React,{ useState } from "react"
+"use client";
+import { RegisterFunction } from "../function";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function FormRegister(){
-    const router = useRouter();
-    const [email,setEmail]=useState("")
-    const [password,setPassword]=useState("")
-    const [name,setName]=useState("")
-    const [message,setMessage]=useState("")
+export default function FormRegister() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e:React.FormEvent)=>{
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
-    const result = await RegisterFunction({email,password,name});
-    if(result && result.success){
+    const result = await RegisterFunction({ email, password, name });
+    if (result && result.success) {
       router.push("/login");
-    } else if(result && result.message) {
+    } else if (result && result.message) {
       setMessage(result.message);
     } else {
       setMessage("Une erreur est survenue lors de l'inscription.");
     }
   };
-    
-    return(
+
+  return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label className="text-black" htmlFor="email">Email</label>
-        <input 
+        <label className="text-black" htmlFor="email">
+          Email
+        </label>
+        <input
           type="email"
           id="email"
           value={email}
@@ -36,7 +38,9 @@ export default function FormRegister(){
         />
       </div>
       <div>
-        <label className="text-black" htmlFor="password">Mot de passe</label>
+        <label className="text-black" htmlFor="password">
+          Mot de passe
+        </label>
         <input
           type="password"
           id="password"
@@ -46,7 +50,9 @@ export default function FormRegister(){
         />
       </div>
       <div>
-        <label className="text-black" htmlFor="name">Nom</label>
+        <label className="text-black" htmlFor="name">
+          Nom
+        </label>
         <input
           type="text"
           id="name"
@@ -56,7 +62,12 @@ export default function FormRegister(){
         />
       </div>
       <p>{message}</p>
-      <button className="text-white cursor-pointer bg-black w-full h-12 rounded-b-lg rounded-t-lg" type="submit">S'inscrire</button>
-    </form>    
-    )
+      <button
+        className="text-white cursor-pointer bg-black w-full h-12 rounded-b-lg rounded-t-lg"
+        type="submit"
+      >
+        S'inscrire
+      </button>
+    </form>
+  );
 }

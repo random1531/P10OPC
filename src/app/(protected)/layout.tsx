@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../../components/ui/header"
-import { ProtectedProvider } from "../context/ContextProvider"
+import Header from "../../components/ui/header";
+import { ProtectedProvider } from "../context/ContextProvider";
 import { Toaster } from "sonner";
 
 export default function ProtectedLayout({
@@ -13,7 +13,6 @@ export default function ProtectedLayout({
 }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,12 +26,14 @@ export default function ProtectedLayout({
 
   if (!authorized) return null;
 
-  return <>
-    <ProtectedProvider>
-      <Header />
+  return (
+    <>
+      <ProtectedProvider>
+        <Header />
 
-      {children}
-      <Toaster position="top-right" richColors />
-    </ProtectedProvider>
-  </>;
+        {children}
+        <Toaster position="top-right" richColors />
+      </ProtectedProvider>
+    </>
+  );
 }

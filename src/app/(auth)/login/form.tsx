@@ -19,10 +19,14 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-      <h1 className="text-4xl text-orange-500 align-text-center font-medium w-full flex align-middle justify-center">Connexion</h1>
+      <h1 className="text-4xl text-orange-500 align-text-center font-medium w-full flex align-middle justify-center">
+        Connexion
+      </h1>
       <div>
-        <label className="text-black" htmlFor="email">Email</label>
-        <input 
+        <label className="text-black" htmlFor="email">
+          Email
+        </label>
+        <input
           type="email"
           id="email"
           value={email}
@@ -31,7 +35,9 @@ export default function LoginForm() {
         />
       </div>
       <div>
-        <label className="text-black" htmlFor="password">Mot de passe</label>
+        <label className="text-black" htmlFor="password">
+          Mot de passe
+        </label>
         <input
           type="password"
           id="password"
@@ -40,8 +46,15 @@ export default function LoginForm() {
           className="text-black border-2 border-gray-300 rounded-xs p-2 w-full"
         />
       </div>
-      <button className="text-white cursor-pointer bg-black w-full h-12 rounded-b-lg rounded-t-lg" type="submit">Se connecter</button>
-      <p className="w-full flex align-middle justify-center text-orange-400 underline">Mot de passe oublié?</p>
+      <button
+        className="text-white cursor-pointer bg-black w-full h-12 rounded-b-lg rounded-t-lg"
+        type="submit"
+      >
+        Se connecter
+      </button>
+      <p className="w-full flex align-middle justify-center text-orange-400 underline">
+        Mot de passe oublié?
+      </p>
     </form>
   );
 }
