@@ -1,13 +1,29 @@
 "use client";
 import CardTaskKanban from "../cardTask/caraTaskKanban";
-import { useProtected } from "../../../app/context/ContextProvider";
+import { AssignedTask, Task } from "@/types/task";
 
-export default function DashKanban() {
-  const { tasks } = useProtected();
+interface DashKanbanProps {
+  tasksAssigned: AssignedTask[];
+  loading: boolean;
+  error: string | null;
+}
 
-  const todoTasks = tasks.filter((item) => item.status === "TODO");
-  const inProgressTasks = tasks.filter((item) => item.status === "IN_PROGRESS");
-  const doneTasks = tasks.filter((item) => item.status === "DONE");
+export default function DashKanban({ tasksAssigned, loading, error }: DashKanbanProps) {
+  if (loading) {
+    return <div className="text-center py-8">Chargement...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500 text-center py-8">
+        Erreur lors du chargement des tâches: {error}
+      </div>
+    );
+  }
+
+  const todoTasks = tasksAssigned.filter((item) => item.status === "TODO");
+  const inProgressTasks = tasksAssigned.filter((item) => item.status === "IN_PROGRESS");
+  const doneTasks = tasksAssigned.filter((item) => item.status === "DONE");
 
   return (
     <div className="flex w-full items-start gap-10">

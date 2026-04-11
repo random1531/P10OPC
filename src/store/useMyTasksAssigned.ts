@@ -25,8 +25,8 @@ export const useMyTasksAssigned = create<TasksAssignedState>()(
           const result = await AssignedTasks();
           if (result.success) {
             const data = (result as any).data;
-            const tasksAssigned = Array.isArray(data?.takssAssigned)
-              ? data.takssAssigned
+            const tasksAssigned = Array.isArray(data?.tasks)
+              ? data.tasks
               : [];
             set({ tasksAssigned, loading: false });
           } else {

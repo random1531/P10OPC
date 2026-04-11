@@ -1,16 +1,17 @@
 "use client";
 import CardTask from "../cardTask/cardTask";
-import { useProtected } from "../../../app/context/ContextProvider";
+import Loader from "../loader";
+import { AssignedTask } from "@/types/task";
 
-export default function DashList() {
-  const {
-    tasks,
-    userDetail,
-    loading,
-    error,
-    refreshAssignedTasks,
-    refreshUserDetail,
-  } = useProtected();
+interface DashListProps {
+  tasksAssigned: AssignedTask[];
+  loading: boolean;
+  error: string | null;
+}
+
+export default function DashList({ tasksAssigned, loading, error }: DashListProps) {
+ 
+
   return (
     <div className="flex flex-col  pr-14 pl-14 pt-10 pb-10 gap-10 rounded-xl border border-gray-200 bg-white">
       <div className="flex justify-between">
@@ -23,7 +24,7 @@ export default function DashList() {
           </p>
         </div>
         <input
-          className="flex justify-between w-[357px] h-[63px] bg-white rounded-lg px-8 py-[23px] border border-gray-200"
+          className="flex justify-between w-89.25 h-15.75 bg-white rounded-lg px-8 py-5.75 border border-gray-200"
           placeholder="Rechercher une tâche"
           type="text"
         />
@@ -32,9 +33,17 @@ export default function DashList() {
       <div className="flex flex-col gap-4"></div>
       <div className="flex flex-col gap-4">
         {loading ? (
-          <div>Chargement...</div>
+          <Loader />
+        ) : error ? (
+          <div className="text-red-500 text-center py-4">
+            Erreur lors du chargement des tâches: {error}
+          </div>
+        ) : tasksAssigned.length === 0 ? (
+          <div className="text-gray-500 text-center py-4">
+            Aucune tâche assignée
+          </div>
         ) : (
-          tasks.map((e) => (
+          tasksAssigned.map((e) => (
             <CardTask
               key={e.id}
               taskname={e.title}

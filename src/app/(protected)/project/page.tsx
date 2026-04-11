@@ -9,16 +9,18 @@ import ProjectCard from "../../../components/ui/project/projets";
 import ProjectProgress from "@/components/ui/project/ProjectProgress";
 import { AiOutlineTeam } from "react-icons/ai";
 import { useProjectStore } from "@/store/useProjectStore";
-import { useProjectTasksStore } from "@/store/useProjectTasksStore";
+import { GetDetailsTaskProject } from "@/features/task/api";
 import Loader from "@/components/ui/loader";
 import type { Task } from "@/types/task";
 
 export default function Project() {
   const { projects, loading, error, fetchProjects } = useProjectStore();
-  const { tasks } = useProjectTasksStore();
   const { userDetail } = useProtected();
-  const [projectTasks, setProjectTasks] = useState<{ [key: string]: Task[] }>({});
+  const [projectTasks, setProjectTasks] = useState<{ [key: string]: Task[] }>(
+    {},
+  );
   const [isOpen, setIsOpen] = useState<string | null>(null);
+  const [tasksLoading, setTasksLoading] = useState(false);
   const userOwn: string | undefined = userDetail?.name;
   const router = useRouter();
 
@@ -26,11 +28,44 @@ export default function Project() {
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    if (projects.length > 0) {
+      const loadProjectTasks = async () => {
+        setTasksLoading(true);
+        const tasksMap: { [key: string]: Task[] } = {};
+
+        try {
+          const taskPromises = projects.map((project) =>
+            GetDetailsTaskProject({ id: project.id }),
+          );
+
+          const results = await Promise.all(taskPromises);
+
+          results.forEach((result, index) => {
+            if (result.success && result.data) {
+              tasksMap[projects[index].id] = result.data.tasks;
+            } else {
+              tasksMap[projects[index].id] = [];
+            }
+          });
+
+          setProjectTasks(tasksMap);
+        } catch (error) {
+          console.error("Erreur lors du chargement des tâches:", error);
+        } finally {
+          setTasksLoading(false);
+        }
+      };
+
+      loadProjectTasks();
+    }
+  }, [projects]);
+
   const getTasksForProject = (projectId: string): Task[] => {
     return projectTasks[projectId] || [];
   };
 
-  if (loading) return <Loader />;
+  if (loading || tasksLoading) return <Loader />;
   if (error) return <p className="p-8 text-red-500">Erreur : {error}</p>;
 
   return (
@@ -59,8 +94,9 @@ export default function Project() {
             <div className="flex flex-col gap-3.5 w-full">
               <ProjectProgress
                 done={
-                  getTasksForProject(e.id).filter((t: Task) => t.status === "DONE")
-                    .length
+                  getTasksForProject(e.id).filter(
+                    (t: Task) => t.status === "DONE",
+                  ).length
                 }
                 total={getTasksForProject(e.id).length}
               />

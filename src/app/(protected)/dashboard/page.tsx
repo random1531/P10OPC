@@ -1,5 +1,4 @@
 "use client";
-import CardTask from "../../../components/ui/cardTask/cardTask";
 import { useProtected } from "../../context/ContextProvider";
 import { GoChecklist } from "react-icons/go";
 import { MdOutlineViewKanban } from "react-icons/md";
@@ -82,9 +81,9 @@ export default function Dashboard() {
         {loading ? (
           <div>Chargement...</div>
         ) : viewMode === "list" ? (
-          <DashList />
+          <DashList tasksAssigned={tasksAssigned} loading={taskLoading} error={taskError} />
         ) : viewMode === "kanban" ? (
-          <DashKanban />
+          <DashKanban tasksAssigned={tasksAssigned} loading={taskLoading} error={taskError} />
         ) : (
           <div></div>
         )}

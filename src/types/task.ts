@@ -32,3 +32,25 @@ export type Comment = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type assignedProject = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+export type AssignedTask = {
+  id: string;
+  title: string;
+  description: string;
+  status: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+  dueDate: string;
+  projectId: string;
+  project: assignedProject;
+  creatorId: string;
+  assignees: TaskAssignee[];
+  comments: Comment[];
+  createdAt: string;
+  updatedAt: string;
+};

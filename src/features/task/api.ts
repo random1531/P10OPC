@@ -109,8 +109,8 @@ export async function DeleteTask({
   } catch (error) {}
 }
 
-//taksAssignée
-type AssignedTask = { takssAssigned: Task[] };
+//tâches assignées
+type AssignedTask = { tasksAssigned: Task[] };
 
 export async function AssignedTasks() {
   const token = localStorage.getItem("token");
@@ -121,6 +121,7 @@ export async function AssignedTasks() {
         method: "GET",
         headers: {
           Accept: "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       },

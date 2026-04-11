@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider";
-import { UpdateUser } from "./function";
+import { UpdateUser } from "@/features/auth/api";
 import InputFunction from "@/components/ui/form/input";
-import UserSearch from "../../../components/ui/userShearch/usershearch";
 
 export default function setting() {
   const { userDetail, loading, error, refreshUserDetail } = useProtected();
