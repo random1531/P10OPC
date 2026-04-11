@@ -5,7 +5,7 @@ import ModalCreateTask from "@/components/ui/modal/ModalProps";
 import FormCreateTask from "../../../../components/ui/form/CreateTask";
 import type { Task } from "@/types/task";
 import type { Project } from "../../../../types/project";
-import Test from "../../../../components/ui/test";
+import Test from "../../../../components/ui/task/taskIa/modalTasksIa";
 import { useProjectTasksStore } from "../../../../store/useProjectTasksStore";
 import HeaderProject from "@/components/ui/projectDetail/headerProject";
 import HeroHeader from "@/components/ui/projectDetail/herohead";

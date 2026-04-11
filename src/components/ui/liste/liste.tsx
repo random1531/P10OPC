@@ -1,6 +1,6 @@
 "use client";
 import CardTask from "../cardTask/cardTask";
-import Loader from "../loader";
+import Loader from "../tools/loader";
 import { AssignedTask } from "@/types/task";
 
 interface DashListProps {

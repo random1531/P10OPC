@@ -1,7 +1,7 @@
 import type { Comment } from "@/types/task";
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 import { useState } from "react";
-import Loader from "../../loader";
+import Loader from "../../tools/loader";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 type CommentsProps = {

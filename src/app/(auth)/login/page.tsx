@@ -2,7 +2,7 @@
 import pic from "../../../../public/aze.jpg";
 import logo from "../../../../public/logo.png";
 import Image from "next/image";
-import Loginform from "./form";
+import Loginform from "@/components/ui/form/loginForm";
 import Link from "next/link";
 type formConnecter = {
   email: string;

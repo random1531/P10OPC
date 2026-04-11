@@ -8,14 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function header() {
-  const {
-    tasks,
-    userDetail,
-    loading,
-    error,
-    refreshAssignedTasks,
-    refreshUserDetail,
-  } = useProtected();
+  const { userDetail, loading, error, refreshUserDetail } = useProtected();
   const pathname = usePathname();
   const Dash = pathname === "/dashboard";
   const Project = pathname === "/project";

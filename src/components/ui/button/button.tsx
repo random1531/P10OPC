@@ -5,7 +5,7 @@ export default function Button({
 }: {
   onclick?: () => void;
   textBtn: string;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   return (
     <button

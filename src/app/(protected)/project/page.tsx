@@ -4,13 +4,13 @@ import { useProtected } from "../../context/ContextProvider";
 import { useRouter } from "next/navigation";
 import ModalCreateTask from "../../../components/ui/modal/ModalProps";
 import CreatProject from "@/components/ui/form/project";
-import HeaderDashProject from "@/components/headerDashProject";
+import HeaderDashProject from "@/components/ui/projectDetail/headerDashProject";
 import ProjectCard from "../../../components/ui/project/projets";
 import ProjectProgress from "@/components/ui/project/ProjectProgress";
 import { AiOutlineTeam } from "react-icons/ai";
 import { useProjectStore } from "@/store/useProjectStore";
 import { GetDetailsTaskProject } from "@/features/task/api";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui/tools/loader";
 import type { Task } from "@/types/task";
 
 export default function Project() {
@@ -84,7 +84,7 @@ export default function Project() {
       </div>
 
       <div className="grid grid-cols-3 gap-12 flex-wrap w-4/5">
-        {projects.map((e) => (
+        {!loading && !tasksLoading && projects && projects.map((e) => (
           <button
             className="cursor-pointer flex flex-col bg-white rounded-xl pt-7 pb-7 pr-8 pl-8 border gap-14 justify-between border-gray-200"
             key={e.id}

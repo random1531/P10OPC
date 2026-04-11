@@ -1,8 +1,8 @@
 import { useState } from "react";
-import IaTask from "./task/iaTask";
+import IaTask from "./iaTask";
 import { AddTasksToproject } from "@/features/task/api";
 import { HiSparkles } from "react-icons/hi";
-import Loader from "./loader";
+import Loader from "../../tools/loader";
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 
 type Task = {
@@ -66,7 +66,12 @@ export default function TaskGenerator({
         }),
       ),
     );
-    fetchTasks;
+    // Rafraîchir les tâches après ajout
+    await fetchTasks(idPorject);
+    // Fermer le modal si la fonction est fournie
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (

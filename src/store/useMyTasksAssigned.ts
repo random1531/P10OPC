@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { AssignedTasks } from "@/features/task/api";
-import { Task } from "@/types/task";
+import { AssignedTask, Task } from "@/types/task";
 
 type TasksAssignedState = {
-  tasksAssigned: Task[];
+  tasksAssigned: AssignedTask[];
   loading: boolean;
   error: string | null;
   fetchAssignedTasks: () => Promise<void>;

@@ -1,6 +1,6 @@
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 import { useState } from "react";
-import Loader from "../../loader";
+import Loader from "../../tools/loader";
 
 type AddCommentsProps = {
   projectId: string;

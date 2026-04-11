@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import InputFunction from "./input";
 import Button from "../button/button";
 import { useProjectStore } from "@/store/useProjectStore";
 import type { Project } from "@/types/project";
 
+
 export default function ProjetModif({ ids }: { ids: string }) {
-  const { modifProject, projects, fetchProjects,removeContributor } = useProjectStore();
+  const router = useRouter();
+  const {
+    modifProject,
+    projects,
+    fetchProjects,
+    removeContributor,
+    addContributor,
+    deleteProject,
+  } = useProjectStore();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [currentProject, setCurrentProject] = useState<Project | undefined>(
@@ -35,62 +45,98 @@ export default function ProjetModif({ ids }: { ids: string }) {
     }
     fetchProjects();
   };
-  const handleDeleteContributor = async ({idPorject,iduser}:{idPorject:string,iduser:string}) => {
+
+  const handleDeleteProject = async () => {
+    try {
+      const success = await deleteProject(ids);
+      if (success) {
+        router.push("/project");
+      }
+    } catch (error) {
+    
+    }
+  };
+
+  const handleDeleteContributor = async ({
+    idPorject,
+    iduser,
+  }: {
+    idPorject: string;
+    iduser: string;
+  }) => {
     currentProject?.members.forEach((member, index) => {
       console.log(`Membre ${index}:`, {
         memberId: member.id,
         userId: member.user.id,
         userName: member.user.name,
         userEmail: member.user.email,
-        role: member.role
+        role: member.role,
       });
     });
-    
+
     const success = await removeContributor(idPorject, iduser);
     console.log("Résultat API:", success);
-    
+
     if (success) {
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await fetchProjects();
-      const updatedProject = projects.find(p => p.id === idPorject);
+      const updatedProject = projects.find((p) => p.id === idPorject);
       console.log("Contributeurs APRÈS suppression:", updatedProject?.members);
-      const beforeIds = currentProject?.members.map(m => m.id) || [];
-      const afterIds = updatedProject?.members.map(m => m.id) || [];
+      const beforeIds = currentProject?.members.map((m) => m.id) || [];
+      const afterIds = updatedProject?.members.map((m) => m.id) || [];
       console.log("IDs AVANT:", beforeIds);
       console.log("IDs APRÈS:", afterIds);
-      
+
       setCurrentProject(updatedProject);
     }
     console.log("=== FIN DE SUPPRESSION ===");
-  }
+  };
   return (
-    <form onSubmit={handleSubmit}>
-      <InputFunction
-        idvalue="title"
-        type="text"
-        onchange={(e) => setTitle(e.target.value)}
-        labelText="Titre"
-        valueInput={title}
+    <>
+      <form onSubmit={handleSubmit}>
+        <InputFunction
+          idvalue="title"
+          type="text"
+          onchange={(e) => setTitle(e.target.value)}
+          labelText="Titre"
+          valueInput={title}
+        />
+        <InputFunction
+          idvalue="description"
+          type="text"
+          onchange={(e) => setDescription(e.target.value)}
+          labelText="Description"
+          valueInput={description}
+        />
+        <Button
+          onclick={() =>
+            handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+          }
+          textBtn="Enregistrer"
+          disabled={!title.trim() || !description.trim()}
+        />
+        <div className="flex flex-wrap w-full gap-1.5">
+          {currentProject?.members.map((p) => (
+            <p
+              onClick={(e) =>
+                handleDeleteContributor({
+                  idPorject: currentProject.id,
+                  iduser: p.user.id,
+                })
+              }
+              className="p-1 bg-gray-200 rounded-xl cursor-pointer"
+              key={p.id}
+            >
+              {p.user.name}
+            </p>
+          ))}
+        </div>
+      <Button 
+        onclick={handleDeleteProject} 
+        textBtn="Supprimer" 
+        disabled={false}
       />
-      <InputFunction
-        idvalue="description"
-        type="text"
-        onchange={(e) => setDescription(e.target.value)}
-        labelText="Description"
-        valueInput={description}
-      />
-      <Button
-        onclick={() =>
-          handleSubmit({ preventDefault: () => {} } as React.FormEvent)
-        }
-        textBtn="Enregistrer"
-        disabled={!title.trim() || !description.trim()}
-      />
-      <div className="flex flex-wrap w-full gap-1.5">
-
-      {currentProject?.members.map((p)=>(<p onClick={(e)=>handleDeleteContributor({idPorject:currentProject.id,iduser:p.user.id})} className="p-1 bg-gray-200 rounded-xl cursor-pointer" key={p.id}>{p.user.name}</p>))}
-      </div>
-    </form>
+      </form>
+    </>
   );
 }

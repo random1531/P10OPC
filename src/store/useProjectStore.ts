@@ -106,7 +106,6 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
     try {
       const result = await UpdateProject({ Title, description, id });
       if (result.success) {
-        // Recharger tous les projets pour avoir les données à jour
         const projectsResult = await GetProject();
         if (projectsResult.success) {
           const projects = Array.isArray(projectsResult.data.projects)

@@ -1,7 +1,7 @@
 import pic from "../../../../public/aze.jpg";
 import logo from "../../../../public/logo.png";
 import Image from "next/image";
-import RegisterForm from "./form";
+import RegisterForm from "@/components/ui/form/registerForm";
 export default function Register() {
   return (
     <div className="h-fit flex  justify-start w-full relative">

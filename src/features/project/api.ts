@@ -77,6 +77,7 @@ export async function DeleteProject({ id }: { id: string }) {
         method: "DELETE",
         headers: {
           Accept: "application/json",
+           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       },
