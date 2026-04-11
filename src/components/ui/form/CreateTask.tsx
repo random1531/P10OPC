@@ -8,7 +8,7 @@ import Button from "@/components/ui/button/button";
 import InputFunction from "@/components/ui/form/input";
 
 export default function createTasks({ onClose }: { onClose?: () => void }) {
-  const { fetchTasks, addTasks } = useProjectTasksStore();
+  const { addTasks, loading: taskLoading, error: taskError } = useProjectTasksStore();
   const params = useParams();
   const slugParam = params.slug;
   const normalizedId = Array.isArray(slugParam)
@@ -21,9 +21,11 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
   const [priority, setPriority] = useState("");
 
   const [assigneeIds, setAssigneeIds] = useState<string[]>([]);
-  const { projects, loading, error, fetchProjects } = useProjectStore();
+  const { projects, loading: projectLoading, error: projectError, fetchProjects } = useProjectStore();
   const [acProject, setAcproject] = useState<Project>();
   const [stBtn, setStBtn] = useState<boolean>(true);
+
+  const isLoading = taskLoading || projectLoading;
 
   const Badge = [
     {
@@ -55,8 +57,8 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
   useEffect(() => {
     const isFormValid =
       title.trim() !== "" && description.trim() !== "" && dueDate !== "";
-    setStBtn(!isFormValid);
-  }, [title, description, dueDate]);
+    setStBtn(!isFormValid || isLoading);
+  }, [title, description, dueDate, isLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +79,18 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
   return (
     <div className="flex flex-col gap-8">
       <h2>Créer une tâche</h2>
+
+      {(projectError || taskError) && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <strong>Erreur:</strong> {projectError || taskError}
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+          Chargement...
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" action="">
         <InputFunction
@@ -103,6 +117,7 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
             id="dueDate"
             className="h-13  rounded-sm pt-5 pb-5 pr-4 pl-4 border border-gray-400 bg-white"
             type="date"
+            disabled={isLoading}
           />
         </div>
         <UserAddToTasks
@@ -113,8 +128,8 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
           <div className="flex gap-2">
             {Badge.map((item) => (
               <span
-                onClick={() => setPriority(() => item.status)}
-                className="cardStyle"
+                onClick={() => !isLoading && setPriority(() => item.status)}
+                className={`cardStyle ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 style={{
                   color: item.color,
                   backgroundColor: item.bgColor,
@@ -134,7 +149,10 @@ export default function createTasks({ onClose }: { onClose?: () => void }) {
             ))}
           </div>
         </div>
-        <Button textBtn="+ Ajouter une tâche" disabled={stBtn} />
+        <Button 
+          textBtn={isLoading ? "Ajout en cours..." : "+ Ajouter une tâche"} 
+          disabled={stBtn} 
+        />
       </form>
     </div>
   );

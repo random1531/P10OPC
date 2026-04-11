@@ -11,7 +11,7 @@ export async function GetDetailsTaskProject({
 }): Promise<Response<TasksData>> {
   const token = localStorage.getItem("token");
   try {
-    const reponse = await fetch(`${process.env.URP_API}projects/${id}/tasks`, {
+    const reponse = await fetch(`${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -58,7 +58,7 @@ export async function AddTasksToproject({
       dueDate,
       assigneeIds,
     };
-    const response = await fetch(`${process.env.URP_API}projects/${id}/tasks`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -90,7 +90,7 @@ export async function DeleteTask({
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${process.env.URP_API}projects/${idProject}/tasks/${idTask}`,
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${idProject}/tasks/${idTask}`,
       {
         method: "DELETE",
         headers: {
@@ -116,7 +116,7 @@ export async function AssignedTasks() {
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${process.env.URP_API}dashboard/assigned-tasks`,
+      `${process.env.NEXT_PUBLIC_URP_API}dashboard/assigned-tasks`,
       {
         method: "GET",
         headers: {

@@ -5,8 +5,9 @@ import {
   CreateProject,
   DeleteProject,
   UpdateProject,
+  AddContributor,
+  RemoveContributor,
 } from "@/features/project/api";
-
 
 type ProjectStoreState = {
   projects: Project[];
@@ -24,6 +25,8 @@ type ProjectStoreState = {
     description: string,
     id: string,
   ) => Promise<boolean>;
+  addContributor: (idProject: string, contributorMail: string) => Promise<boolean>;
+  removeContributor: (idProject: string, userId: string) => Promise<boolean>;
 };
 
 export const useProjectStore = create<ProjectStoreState>((set) => ({
@@ -103,10 +106,66 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
     try {
       const result = await UpdateProject({ Title, description, id });
       if (result.success) {
-        set((state) => ({
-          projects: state.projects.filter((p) => p.id !== id),
-          loading: false,
-        }));
+        // Recharger tous les projets pour avoir les données à jour
+        const projectsResult = await GetProject();
+        if (projectsResult.success) {
+          const projects = Array.isArray(projectsResult.data.projects)
+            ? projectsResult.data.projects
+            : [];
+          set({ projects, loading: false });
+        } else {
+          set({ loading: false });
+        }
+        return true;
+      } else {
+        set({ loading: false, error: result.message });
+        return false;
+      }
+    } catch (error: any) {
+      set({ loading: false, error: error?.message || "Erreur inconnue" });
+      return false;
+    }
+  },
+  addContributor: async (idProject, contributorMail) => {
+    set({ loading: true, error: null });
+    try {
+      const result = await AddContributor({ idProject, contributorMail });
+      if (result.success) {
+        
+        const projectsResult = await GetProject();
+        if (projectsResult.success) {
+          const projects = Array.isArray(projectsResult.data.projects)
+            ? projectsResult.data.projects
+            : [];
+          set({ projects, loading: false });
+        } else {
+          set({ loading: false });
+        }
+        return true;
+      } else {
+        set({ loading: false, error: result.message });
+        return false;
+      }
+    } catch (error: any) {
+      set({ loading: false, error: error?.message || "Erreur inconnue" });
+      return false;
+    }
+  },
+  removeContributor: async (idProject, userId) => {
+    set({ loading: true, error: null });
+    try {
+      const result = await RemoveContributor({ idProject, userId });
+      if (result.success) {
+       
+        const projectsResult = await GetProject();
+        if (projectsResult.success) {
+          const projects = Array.isArray(projectsResult.data.projects)
+            ? projectsResult.data.projects
+            : [];
+          set({ projects, loading: false });
+        } else {
+          set({ loading: false });
+        }
         return true;
       } else {
         set({ loading: false, error: result.message });

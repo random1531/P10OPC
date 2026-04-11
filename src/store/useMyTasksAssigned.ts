@@ -21,10 +21,8 @@ export const useMyTasksAssigned = create<TasksAssignedState>()(
         if (get().loading) return;
 
         set({ loading: true, error: null });
-
         try {
           const result = await AssignedTasks();
-
           if (result.success) {
             const data = (result as any).data;
             const tasksAssigned = Array.isArray(data?.takssAssigned)

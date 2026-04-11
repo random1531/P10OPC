@@ -1,6 +1,13 @@
 import type { Comment } from "@/types/task";
 import type { Response } from "@/types/respons";
 
+
+//Send comment
+//Update comment
+//Delete comment
+// get comments
+
+
 export async function SendComments({
   ProjectId,
   tasksID,
@@ -14,7 +21,7 @@ export async function SendComments({
   const formData = { content: comment };
   try {
     const response = await fetch(
-      `http://localhost:8000/projects/${ProjectId}/tasks/${tasksID}/comments`,
+      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
       {
         method: "POST",
         headers: {
@@ -49,7 +56,7 @@ export async function DeleteComment({
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `http://localhost:8000/projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
+      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
       {
         method: "DELETE",
         headers: {
@@ -80,7 +87,7 @@ export async function GetTasksComment({
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `http://localhost:8000/projects/${ProjectId}/tasks/${tasksID}/comments`,
+      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
       {
         method: "GET",
         headers: {
@@ -91,6 +98,43 @@ export async function GetTasksComment({
       },
     );
     const result: Response<Comment[]> = await response.json();
+    return result;
+  } catch (error: any) {
+    return {
+      success: false as const,
+      message: "Erreur",
+      error: error?.message || String(error),
+    };
+  }
+}
+
+export async function UpdateComment({
+  ProjectId,
+  tasksID,
+  idcomment,
+  comment,
+}: {
+  ProjectId: string;
+  tasksID: string;
+  idcomment: string;
+  comment: string;
+}) {
+  const token = localStorage.getItem("token");
+  const formData = { content: comment };
+  try {
+    const response = await fetch(
+      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      },
+    );
+    const result = await response.json();
     return result;
   } catch (error: any) {
     return {

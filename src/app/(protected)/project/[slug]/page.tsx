@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ModalCreateTask from "@/components/ui/modal/ModalProps";
-import FormCreteTask from "./createTasks";
+import FormCreateTask from "../../../../components/ui/form/CreateTask";
 import type { Task } from "@/types/task";
 import type { Project } from "../../../../types/project";
 import Test from "../../../../components/ui/test";
@@ -14,12 +14,9 @@ import ProjetModif from "@/components/ui/form/projectModif";
 import { useProjectStore } from "@/store/useProjectStore";
 
 export default function ProjetIdDetails() {
-  const { tasks, loading, error, fetchTasks, addComment } =
-    useProjectTasksStore();
+  const { tasks, loading, error, fetchTasks } = useProjectTasksStore();
   const { projects, fetchProjects } = useProjectStore();
-
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
   const [currentProject, setCurrentProject] = useState<Project | undefined>(
     undefined,
   );
@@ -32,38 +29,38 @@ export default function ProjetIdDetails() {
   const projectId = Array.isArray(slug) ? slug[0] : (slug ?? "");
 
   useEffect(() => {
+    fetchProjects();
     if (projectId) {
       fetchTasks(projectId);
     }
-  }, [projectId, fetchTasks]);
+  }, [projectId, fetchTasks, fetchProjects]);
 
   useEffect(() => {
-    if (projectId) {
+    if (projectId && projects.length > 0) {
       setCurrentProject(projects.find((p) => p.id === projectId));
     }
   }, [projectId, projects]);
 
   useEffect(() => {
-    setAllTasks(tasks);
     setFilteredTasks(tasks);
   }, [tasks]);
 
   const handleStatusFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value;
     if (status === "") {
-      setFilteredTasks(allTasks);
+      setFilteredTasks(tasks);
     } else {
-      setFilteredTasks(allTasks.filter((t) => t.status === status));
+      setFilteredTasks(tasks.filter((t: Task) => t.status === status));
     }
   };
 
   const handleSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
     if (!searchTerm) {
-      setFilteredTasks(allTasks);
+      setFilteredTasks(tasks);
     } else {
       setFilteredTasks(
-        allTasks.filter((t) => t.title.toLowerCase().includes(searchTerm)),
+        tasks.filter((t: Task) => t.title.toLowerCase().includes(searchTerm)),
       );
     }
   };
@@ -90,7 +87,7 @@ export default function ProjetIdDetails() {
       )}
       {isCreateTaskOpen && (
         <ModalCreateTask onClose={() => setIsCreateTaskOpen(false)}>
-          <FormCreteTask />
+          <FormCreateTask />
         </ModalCreateTask>
       )}
       {isProjectOpen && (
