@@ -17,6 +17,22 @@ export default function cardTask({
   projectName: string;
   badgeStatus: string;
 }) {
+  const Month =[
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Aout",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"
+  ]
+  console.log(Month.length)
+  
   return (
     <div className="flex md:flex-row flex-col md:items-center items-start justify-between rounded-xl border border-gray-200 md:w-full w-auto h-auto pt-6 pb-6 pl-10 pr-10">
       <div className="flex flex-col justify-items-start items-start gap-9">
@@ -31,7 +47,7 @@ export default function cardTask({
           </div>
           <div className="flex text-gray-500 items-center justify-center  gap-1">
             <FaCalendarAlt />
-            <span>{duedate}</span>
+            <span>{new Date(duedate).toLocaleString('fr-FR', { day: 'numeric', month: 'long' })}</span>
           </div>
           <div className="flex text-gray-500 items-center justify-center  gap-1">
             <MdComment />

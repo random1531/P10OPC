@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export async function UpdateUser({
   name,
   email,
@@ -19,10 +21,15 @@ export async function UpdateUser({
       body: JSON.stringify(formData),
     });
     const result = await response.json();
+    if(result.success){
 
+      toast.success(result.message)
+    }else{
+      toast.error(result.message)
+
+    }
     return result;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }

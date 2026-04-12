@@ -21,7 +21,7 @@ export async function SendComments({
   const formData = { content: comment };
   try {
     const response = await fetch(
-      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
       {
         method: "POST",
         headers: {
@@ -56,7 +56,7 @@ export async function DeleteComment({
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
       {
         method: "DELETE",
         headers: {
@@ -87,7 +87,7 @@ export async function GetTasksComment({
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${ProjectId}/tasks/${tasksID}/comments`,
       {
         method: "GET",
         headers: {
@@ -123,7 +123,7 @@ export async function UpdateComment({
   const formData = { content: comment };
   try {
     const response = await fetch(
-      `${process.env.URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${ProjectId}/tasks/${tasksID}/comments/${idcomment}`,
       {
         method: "PUT",
         headers: {

@@ -12,7 +12,7 @@ export default function Button({
       type="submit"
       disabled={disabled}
       onClick={onclick}
-      className={` text-white z-0 rounded-xl w-2xs h-12 disabled:opacity-50 ${disabled ? "bg-gray-400" : `bg-black`}`}
+      className={` text-white cursor-pointer z-0 rounded-xl md:w-2xs w-auto md:h-12 h-auto disabled:opacity-50 ${disabled ? "bg-gray-400" : `bg-black`}`}
     >
       {textBtn}
     </button>

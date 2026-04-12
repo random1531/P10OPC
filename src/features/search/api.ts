@@ -2,7 +2,7 @@ export async function searchUser({ value }: { value: string }) {
   const token = localStorage.getItem("token");
   try {
     const response = await fetch(
-      `${process.env.URP_API}users/search?query=${value}`,
+      `${process.env.NEXT_PUBLIC_URP_API}users/search?query=${value}`,
       {
         method: "GET",
         headers: {

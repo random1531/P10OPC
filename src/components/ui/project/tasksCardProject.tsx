@@ -5,7 +5,6 @@ import Comments from "../task/comments/comments";
 import AddCommentsToTask from "../task/comments/addComments";
 import type { Task } from "@/types/task";
 import Badge from "../badge/badge";
-import { DeleteTask } from "@/features/task/api";
 import { useProtected } from "@/app/context/ContextProvider";
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 interface TasksCardProjectProps {
@@ -22,7 +21,7 @@ export default function TasksCardProject({
   projectId,
   ownerId,
 }: TasksCardProjectProps) {
-  const { userDetail, refreshProjects } = useProtected();
+  const { userDetail } = useProtected();
   const { deleteTask } = useProjectTasksStore();
   const isAuthorised =
     task.assignees.some((a) => a.user.id === userDetail?.id) ||
@@ -88,7 +87,7 @@ export default function TasksCardProject({
         <div className="flex flex-col gap-4">
           {task.comments.map((comment, index) => (
             <Comments
-              key={comment?.id || `comment-${index}`}
+              key={comment.id || `comment-${index}`}
               comment={comment}
               currentUserId={userDetail?.id}
               taskId={task.id}

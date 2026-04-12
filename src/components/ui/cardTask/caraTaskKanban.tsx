@@ -44,7 +44,7 @@ export default function cardTaskKanban({
 
         <div className="flex items-center gap-1">
           <FaCalendarAlt className="text-sm shrink-0" />
-          <span className="hidden sm:inline truncate">{duedate}</span>
+          <span className="hidden sm:inline truncate">{new Date(duedate).toLocaleString('fr-FR', { day: 'numeric', month: 'long' })}</span>
         </div>
 
         <span className="hidden sm:inline">|</span>
