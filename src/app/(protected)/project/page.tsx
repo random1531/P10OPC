@@ -83,7 +83,7 @@ export default function Project() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-12 flex-wrap w-4/5">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-12 flex-wrap w-4/5">
         {!loading && !tasksLoading && projects && projects.map((e) => (
           <button
             className="cursor-pointer flex flex-col bg-white rounded-xl pt-7 pb-7 pr-8 pl-8 border gap-14 justify-between border-gray-200"

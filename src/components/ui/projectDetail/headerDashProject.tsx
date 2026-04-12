@@ -14,7 +14,7 @@ export default function HeaderDashProject({
   if (!Dash && !Project) return null;
 
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex md:flex-row flex-col justify-between w-full">
       <div className="">
         <h2 className="font-sans font-semibold text-2xl text-[#1F1F1F]">
           {Dash ? "Tableau de bord" : "Mes projets"}

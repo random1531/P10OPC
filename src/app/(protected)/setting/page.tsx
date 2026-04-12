@@ -65,7 +65,7 @@ export default function setting() {
 
           <button
             type="submit"
-            className="text-lg bg-black rounded-xl text-white pt-3 pb-3 pr-5 pl-5 w-3xs"
+            className="text-lg bg-black rounded-xl text-white pt-3 pb-3 pr-5 pl-5 "
           >
             Modifier les informations
           </button>

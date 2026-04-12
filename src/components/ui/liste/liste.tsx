@@ -14,7 +14,7 @@ export default function DashList({ tasksAssigned, loading, error }: DashListProp
 
   return (
     <div className="flex flex-col  pr-14 pl-14 pt-10 pb-10 gap-10 rounded-xl border border-gray-200 bg-white">
-      <div className="flex justify-between">
+      <div className="flex md:flex-row flex-col justify-between w-full">
         <div className="flex flex-col">
           <p className="font-sans font-semibold text-lg text-[#1F1F1F]">
             Mes tâches assignées
@@ -24,7 +24,7 @@ export default function DashList({ tasksAssigned, loading, error }: DashListProp
           </p>
         </div>
         <input
-          className="flex justify-between w-89.25 h-15.75 bg-white rounded-lg px-8 py-5.75 border border-gray-200"
+          className="flex justify-between md:w-89.25 w-auto h-15.75 bg-white rounded-lg px-8 py-5.75 border border-gray-200"
           placeholder="Rechercher une tâche"
           type="text"
         />

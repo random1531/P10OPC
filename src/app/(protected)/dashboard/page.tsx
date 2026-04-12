@@ -32,7 +32,7 @@ export default function Dashboard() {
   }, [ fetchAssignedTasks]);
 
   return (
-    <div className="flex flex-col gap-9 mt-24 w-7xl pr-14 pl-14 pt-10 pb-10">
+    <div className="flex flex-col gap-9 mt-24 w-full pr-14 pl-14 pt-10 pb-10">
       <HeaderDashProject
         open={() => setIsOpen("open")}
         useName={userDetail?.name}
