@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     });
 
     const response = await client.beta.conversations.start({
-      agentId: "ag_019d39eb7f2376348ed51f1009efbb40",
+      agentId: process.env.AGENT_ID,
       agentVersion: 7,
       inputs: [
         {

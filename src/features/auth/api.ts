@@ -11,7 +11,7 @@ export async function UpdateUser({
   const formData = { name, email };
 
   try {
-    const response = await fetch("http://localhost:8000/auth/profile", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URP_API}auth/profile`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -46,7 +46,7 @@ export async function LoginFunction({
 }) {
   const formData = { email, password };
   try {
-    const res = await fetch("http://localhost:8000/auth/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URP_API}auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export async function RegisterFunction({
 }) {
   const formData = { email, password, name };
   try {
-    const res = await fetch("http://localhost:8000/auth/register", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URP_API}auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
