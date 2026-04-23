@@ -3,10 +3,13 @@ import { UpdateUser } from "@/features/auth/api";
 import { useEffect, useState } from "react";
 import { useProtected } from "@/app/context/ContextProvider";
 import Button from "../button/button";
+import ModalCreateTask from "../modal/ModalProps";
+import ChangePassword from "./changePassword";
 export default function userChange() {
   const { userDetail, loading, error, refreshUserDetail } = useProtected();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (userDetail) {
@@ -15,7 +18,10 @@ export default function userChange() {
     }
   }, [userDetail]);
 
-  return (
+  return (<>
+  {isOpen && ( <ModalCreateTask onClose={()=>setIsOpen(false)}>
+    <ChangePassword close={()=>setIsOpen(false)}/>
+  </ModalCreateTask>)}
     <form
       onSubmit={async (e) => {
         e.preventDefault();
@@ -49,19 +55,33 @@ export default function userChange() {
           onchange={(e) => setEmail(e.target.value)}
         />
 
-        <InputFunction
-          type="password"
-          idvalue="password"
-          labelText="old Password"
-        />
-        <InputFunction
-          type="password"
-          idvalue="password"
-          labelText="new Password"
-        />
       </div>
-      <Button onclick={()=>{""}} textBtn="Modifier les informations"/>
-  
+      <Button
+        onclick={() => {
+          "";
+        }}
+        textBtn="Modifier les informations"
+      />
     </form>
+        <div>
+          {isOpen===false &&  ( <Button textBtn="Modifier Mot de passe" onclick={()=>setIsOpen(true)}/>) }
+         
+          {isOpen && (
+          <form>
+              <InputFunction
+                type="password"
+                idvalue="password"
+                labelText="old Password"
+              />
+              <InputFunction
+                type="password"
+                idvalue="password"
+                labelText="new Password"
+              />
+              <Button textBtn="Enregistrer"/>
+            </form>
+          )}
+        </div>
+        </>
   );
 }

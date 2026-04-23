@@ -34,23 +34,33 @@ export default function SearchUser({
       />
       {Array.isArray(UserFound) &&
         UserFound.map((e) => (
-          <div key={e.id}>
-            <span
-              className="h-2 w-full"
-              onClick={() => setUserSelected((prev) => [...prev, e.email])}
+          <div key={e.id} className="py-1">
+            <button
+              type="button"
+              className="w-full text-left hover:bg-gray-50 px-2 py-1"
+              onClick={() =>
+                setUserSelected((prev) =>
+                  prev.includes(e.email) ? prev.filter((p) => p !== e.email) : [...prev, e.email]
+                )
+              }
             >
               {e.name}
-            </span>
+            </button>
             <hr />
           </div>
         ))}
 
-      {userSelected.length === 0 ? (
-        <></>
-      ) : (
-        <div>
-          {userSelected.map((e) => (
-            <p key={e}>{e}</p>
+      {userSelected.length === 0 ? null : (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {userSelected.map((email) => (
+            <button
+              key={email}
+              type="button"
+              className="px-2 py-1 bg-gray-100 rounded text-sm"
+              onClick={() => setUserSelected((prev) => prev.filter((p) => p !== email))}
+            >
+              {email} ×
+            </button>
           ))}
         </div>
       )}

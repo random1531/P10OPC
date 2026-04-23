@@ -16,6 +16,7 @@ export default function ModifTaskProject({
       <button
         type="button"
         className="cursor-pointer flex items-center justify-center w-full h-full"
+        aria-label="modification suppression"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <BsThreeDots />

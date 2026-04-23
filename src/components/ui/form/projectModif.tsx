@@ -5,7 +5,6 @@ import Button from "../button/button";
 import { useProjectStore } from "@/store/useProjectStore";
 import type { Project } from "@/types/project";
 
-
 export default function ProjetModif({ ids }: { ids: string }) {
   const router = useRouter();
   const {
@@ -52,9 +51,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
       if (success) {
         router.push("/project");
       }
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   };
 
   const handleDeleteContributor = async ({
@@ -131,11 +128,11 @@ export default function ProjetModif({ ids }: { ids: string }) {
             </p>
           ))}
         </div>
-      <Button 
-        onclick={handleDeleteProject} 
-        textBtn="Supprimer" 
-        disabled={false}
-      />
+        <Button
+          onclick={handleDeleteProject}
+          textBtn="Supprimer"
+          disabled={false}
+        />
       </form>
     </>
   );

@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputForm from "./input";
 import SearchUser from "../userShearch/usershearch";
 import { useProjectStore } from "@/store/useProjectStore";
+import UserAddToProject from "../userShearch/userAddToTask/userAddToProject";
 
 export default function CreatProject({ onClose }: { onClose: () => void }) {
   const { addProject } = useProjectStore();
@@ -36,7 +37,9 @@ export default function CreatProject({ onClose }: { onClose: () => void }) {
         labelText="Description*"
         valueInput={description}
       />
-      <SearchUser userSelected={users} setUserSelected={setUsers} />
+      <label>Contributeur</label>
+     
+  <UserAddToProject onSelectionChange={(ids) => setUsers(ids)} />
       <button
         className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white "
         type="submit"

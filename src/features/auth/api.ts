@@ -1,3 +1,4 @@
+import header from "@/components/ui/header";
 import { toast } from "sonner";
 
 export async function UpdateUser({
@@ -11,29 +12,29 @@ export async function UpdateUser({
   const formData = { name, email };
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URP_API}auth/profile`, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URP_API}auth/profile`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       },
-      body: JSON.stringify(formData),
-    });
+    );
     const result = await response.json();
-    if(result.success){
-
-      toast.success(result.message)
-    }else{
-      toast.error(result.message)
-
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
     }
     return result;
   } catch (error) {
     return null;
   }
 }
-
 
 // connexion function
 
@@ -88,4 +89,38 @@ export async function RegisterFunction({
 
     return data;
   } catch (error) {}
+}
+
+//resetPassword
+export async function resetPassword({
+  currentPassword,
+  newPassword,
+}: {
+  currentPassword: string;
+  newPassword: string;
+}) {
+  const formData = { currentPassword, newPassword };
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URP_API}auth/password`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+       body: JSON.stringify(formData),
+    });
+     const result = await res.json();
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+   
+    return result;
+
+  } catch (error: any) {
+
+  }
 }

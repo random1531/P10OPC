@@ -117,6 +117,7 @@ export default function ProjetIdDetails() {
             <input
               type="search"
               onChange={handleSearchFilter}
+              aria-label="Rechercher une tâche"
               placeholder="Rechercher une tâche"
               className="border rounded-lg px-3 py-2 w-full sm:w-56"
             />
