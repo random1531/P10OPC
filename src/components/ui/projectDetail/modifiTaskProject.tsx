@@ -5,11 +5,14 @@ import { useProjectStore } from "@/store/useProjectStore";
 export default function ModifTaskProject({
   Delete,
   Autorised,
+  Modif
 }: {
   Delete: () => void;
   Autorised: boolean;
+  Modif: ()=>void
 }) {
   const [isopen, setIsOpen] = useState(false);
+
 
   return (
     <div className="relative flex items-center justify-center h-14 w-14 border-gray-200 border rounded-xl text-xs">
@@ -32,7 +35,7 @@ export default function ModifTaskProject({
             >
               Supprimé
             </button>
-            <button className="text-sm w-full px-3 py-2 text-left hover:bg-orange-100 transition-colors">
+            <button onClick={Modif} className="text-sm w-full px-3 py-2 text-left hover:bg-orange-100 transition-colors">
               Modifié
             </button>
             <button

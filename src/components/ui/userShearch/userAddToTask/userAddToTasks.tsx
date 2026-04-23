@@ -5,11 +5,13 @@ import { FaChevronDown } from "react-icons/fa";
 interface UserAddToTasksProps {
   userMap?: ProjectMember[];
   onSelectionChange?: (selectedIds: string[]) => void;
+  initialSelectedIds?: string[];
 }
 
 export default function UserAddToTasks({
   userMap,
   onSelectionChange,
+  initialSelectedIds,
 }: UserAddToTasksProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -17,6 +19,12 @@ export default function UserAddToTasks({
   useEffect(() => {
     onSelectionChange?.(selectedUsers);
   }, [selectedUsers, onSelectionChange]);
+
+  useEffect(() => {
+    if (Array.isArray(initialSelectedIds) && initialSelectedIds.length > 0) {
+      setSelectedUsers(initialSelectedIds);
+    }
+  }, [initialSelectedIds]);
 
   const handleClick = () => setIsOpen(!isOpen);
 

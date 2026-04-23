@@ -19,7 +19,7 @@ export default function CreatProject({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col justify-center gap-4">
       <h2 className="font-manrope font-semibold text-[24px]">
         Créer un projet
       </h2>
@@ -38,8 +38,8 @@ export default function CreatProject({ onClose }: { onClose: () => void }) {
         valueInput={description}
       />
       <label>Contributeur</label>
-     
-  <UserAddToProject onSelectionChange={(ids) => setUsers(ids)} />
+
+      <UserAddToProject onSelectionChange={(ids) => setUsers(ids)} />
       <button
         className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white "
         type="submit"

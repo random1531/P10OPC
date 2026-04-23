@@ -12,6 +12,8 @@ import HeroHeader from "@/components/ui/projectDetail/herohead";
 import TasksCardProject from "@/components/ui/project/tasksCardProject";
 import ProjetModif from "@/components/ui/form/projectModif";
 import { useProjectStore } from "@/store/useProjectStore";
+import ModifTaskProject from "@/components/ui/projectDetail/modifiTaskProject";
+import ModifTask from "@/components/ui/form/modifTask";
 
 export default function ProjetIdDetails() {
   const { tasks, loading, error, fetchTasks } = useProjectTasksStore();
@@ -21,6 +23,8 @@ export default function ProjetIdDetails() {
     undefined,
   );
   const [openCommentId, setOpenCommentId] = useState<string | null>(null);
+  const [isOpenMofiTask, setIsOpenMofiTask] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
   const [isIATaskOpen, setIsIATaskOpen] = useState(false);
   const [isProjectOpen, setIsProjectOpen] = useState(false);
@@ -80,6 +84,12 @@ export default function ProjetIdDetails() {
         members={currentProject?.members}
       />
 
+      {isOpenMofiTask && (
+        <ModalCreateTask onClose={() => setIsOpenMofiTask(false)}>
+          <ModifTask task={selectedTask} members={currentProject?.members} />
+        </ModalCreateTask>
+      )}
+
       {isIATaskOpen && (
         <ModalCreateTask onClose={() => setIsIATaskOpen(false)}>
           <Test idPorject={projectId} />
@@ -126,6 +136,10 @@ export default function ProjetIdDetails() {
 
         {filteredTasks.map((task) => (
           <TasksCardProject
+            ModifTask={() => {
+              setSelectedTask(task);
+              setIsOpenMofiTask(true);
+            }}
             key={task.id}
             task={task}
             isOpen={openCommentId}

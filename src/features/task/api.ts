@@ -11,13 +11,16 @@ export async function GetDetailsTaskProject({
 }): Promise<Response<TasksData>> {
   const token = localStorage.getItem("token");
   try {
-    const reponse = await fetch(`${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+    const reponse = await fetch(
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     const result: Response<TasksData> = await reponse.json();
     if (!reponse.ok) {
       throw new Error(result.message);
@@ -58,15 +61,18 @@ export async function AddTasksToproject({
       dueDate,
       assigneeIds,
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${id}/tasks`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       },
-      body: JSON.stringify(formData),
-    });
+    );
     const result = await response.json();
     if (result.success) {
       toast.success(result.message);
@@ -129,6 +135,64 @@ export async function AssignedTasks() {
     const result: Response<AssignedTask> = await response.json();
     if (!response.ok) {
       throw new Error(result.message);
+    }
+    return result;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: "Erreur lors de la récupération des tâches",
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+}
+
+export async function ModifiedTask({
+  title,
+  description,
+  status,
+  priority,
+  dueDate,
+  assigneeIds,
+  projectId,
+  taskId,
+}: {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  dueDate: string;
+  assigneeIds: string[];
+  projectId: string;
+  taskId: string;
+}) {
+  const token = localStorage.getItem("token");
+  const formData = {
+    title,
+    description,
+    status,
+    priority,
+    dueDate,
+    assigneeIds,
+  };
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URP_API}projects/${projectId}/tasks/${taskId}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      },
+    );
+    const result = await response.json();
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
     }
     return result;
   } catch (error: any) {

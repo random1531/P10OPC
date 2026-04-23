@@ -21,7 +21,7 @@ export default function InputFunction({
         id={idvalue}
         onChange={onchange || (() => {})}
         value={valueInput || ""}
-        className="text-black border border-gray-300 p-2 w-full rounded-xs"
+        className="text-black border border-gray-200 p-4 w-full rounded-lg bg-white placeholder-gray-400 shadow-sm"
       />
     </div>
   );

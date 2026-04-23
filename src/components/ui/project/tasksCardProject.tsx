@@ -13,6 +13,8 @@ interface TasksCardProjectProps {
   setIsOpen: (id: string | null) => void;
   projectId: string;
   ownerId?: string;
+  ModifTask:()=>void
+  
 }
 export default function TasksCardProject({
   task,
@@ -20,6 +22,7 @@ export default function TasksCardProject({
   setIsOpen,
   projectId,
   ownerId,
+  ModifTask
 }: TasksCardProjectProps) {
   const { userDetail } = useProtected();
   const { deleteTask } = useProjectTasksStore();
@@ -50,7 +53,7 @@ export default function TasksCardProject({
               {task.description}
             </p>
           </div>
-          <ModifTaskProject Autorised={isAuthorised} Delete={handleDelete} />
+          <ModifTaskProject Modif={ModifTask} Autorised={isAuthorised} Delete={handleDelete} />
         </div>
 
         <p className="flex w-full items-center font-normal text-[12px] text-gray-600">

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { GetDetailsTaskProject } from "../features/task/api";
+import { GetDetailsTaskProject, ModifiedTask as ModifiedTaskApi } from "../features/task/api";
 import {
   GetTasksComment,
   SendComments,
@@ -35,6 +35,16 @@ type ProjectTasksState = {
     taskId: string,
     commentId: string,
   ) => Promise<boolean>;
+  ModifiedTask: (
+    title: string,
+    description: string,
+    status: string,
+    priority: string,
+    dueDate: string,
+    assigneeIds: string[],
+    projectId: string,
+    taskId: string,
+  ) => Promise<any>;
 };
 
 export const useProjectTasksStore = create<ProjectTasksState>()(
@@ -127,6 +137,54 @@ export const useProjectTasksStore = create<ProjectTasksState>()(
             error: error?.message || "Erreur lors de l'ajout de la tâche",
           });
           toast.error(error?.message || "Erreur lors de l'ajout de la tâche");
+        }
+      },
+
+      ModifiedTask: async (
+        title: string,
+        description: string,
+        status: string,
+        priority: string,
+        dueDate: string,
+        assigneeIds: string[],
+        projectId: string,
+        taskId: string,
+      ) => {
+        set({ loading: true, error: null });
+        try {
+          const result = await ModifiedTaskApi({
+            title,
+            description,
+            status,
+            priority,
+            dueDate,
+            assigneeIds,
+            projectId,
+            taskId,
+          });
+          if (result?.success) {
+            const updated = result.data?.task;
+            if (updated) {
+              set((state) => ({
+                tasks: state.tasks.map((t) => (t.id === taskId ? { ...t, ...updated } : t)),
+                loading: false,
+              }));
+            } else {
+              const details = await GetDetailsTaskProject({ id: projectId });
+              if (details.success) {
+                const tasks = Array.isArray(details.data.tasks) ? details.data.tasks : [];
+                set({ tasks, loading: false });
+              } else {
+                set({ loading: false });
+              }
+            }
+          } else {
+            set({ loading: false, error: result?.message });
+          }
+          return result;
+        } catch (error: any) {
+          set({ loading: false, error: error?.message || "Erreur lors de la modification de la tâche" });
+          return { success: false, message: error?.message || "Erreur" };
         }
       },
 
