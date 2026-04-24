@@ -10,11 +10,14 @@ import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 export default function ModifTask({
   task,
   members,
+  onSuccess,
 }: {
   task?: Task | null;
   members?: ProjectMember[];
+  onSuccess?: () => void;
 }) {
   const { ModifiedTask } = useProjectTasksStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -57,19 +60,29 @@ export default function ModifTask({
       setMemberIds(members.map((m) => m.user.id));
     }
   }, [task, members]);
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const dueDateISO = date ? new Date(date).toISOString() : "";
-    ModifiedTask(
-      title,
-      description,
-      status,
-      priority,
-      dueDateISO,
-      assigneeIds,
-      task?.projectId ?? "",
-      task?.id ?? "",
-    );
+    setIsSubmitting(true);
+    try {
+      const dueDateISO = date ? new Date(date).toISOString() : "";
+      const res = await ModifiedTask(
+        title,
+        description,
+        status,
+        priority,
+        dueDateISO,
+        assigneeIds,
+        task?.projectId ?? "",
+        task?.id ?? "",
+      );
+      if (res?.success) {
+        onSuccess?.();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -135,8 +148,9 @@ export default function ModifTask({
         <button
           type="submit"
           className="w-full py-4 rounded-lg bg-black text-white text-lg font-medium disabled:opacity-50"
+          disabled={isSubmitting}
         >
-          Enregistrer
+          {isSubmitting ? "Enregistrement..." : "Enregistrer"}
         </button>
       </div>
     </form>

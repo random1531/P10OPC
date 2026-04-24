@@ -31,7 +31,7 @@ export default function cardTask({
     "Novembre",
     "Décembre"
   ]
-  console.log(Month.length)
+
   
   return (
     <div className="flex md:flex-row flex-col md:items-center items-start justify-between rounded-xl border border-gray-200 md:w-full w-auto h-auto pt-6 pb-6 pl-10 pr-10">

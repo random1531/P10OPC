@@ -12,7 +12,6 @@ import HeroHeader from "@/components/ui/projectDetail/herohead";
 import TasksCardProject from "@/components/ui/project/tasksCardProject";
 import ProjetModif from "@/components/ui/form/projectModif";
 import { useProjectStore } from "@/store/useProjectStore";
-import ModifTaskProject from "@/components/ui/projectDetail/modifiTaskProject";
 import ModifTask from "@/components/ui/form/modifTask";
 
 export default function ProjetIdDetails() {
@@ -86,7 +85,7 @@ export default function ProjetIdDetails() {
 
       {isOpenMofiTask && (
         <ModalCreateTask onClose={() => setIsOpenMofiTask(false)}>
-          <ModifTask task={selectedTask} members={currentProject?.members} />
+          <ModifTask task={selectedTask} members={currentProject?.members} onSuccess={() => setIsOpenMofiTask(false)} />
         </ModalCreateTask>
       )}
 

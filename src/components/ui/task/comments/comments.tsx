@@ -22,7 +22,7 @@ export default function Comments({
 
   const handleDelete = async () => {
     setIsLoading(true);
-    console.log(projectId)
+   
     await deleteComment(projectId,taskId, comment.id);
     setIsLoading(false);
   };

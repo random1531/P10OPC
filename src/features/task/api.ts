@@ -27,7 +27,7 @@ export async function GetDetailsTaskProject({
     }
     return result;
   } catch (error: any) {
-    console.log(Error);
+    
     return {
       success: false,
       message: "Erreur lors de la récupération des tâches",

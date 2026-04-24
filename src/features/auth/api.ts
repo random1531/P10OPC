@@ -61,7 +61,7 @@ export async function LoginFunction({
 
     return data;
   } catch (error) {
-    console.log("Erreur lors de la connexion:", error);
+    
   }
 }
 

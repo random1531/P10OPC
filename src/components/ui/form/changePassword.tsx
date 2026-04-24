@@ -19,7 +19,7 @@ export default function ChangePassword({close}:{close: ()=>void}) {
 
     }
   };
-console.log(oldPassword)
+
   return (
     <form onSubmit={handleChangePassword}>
       <InputFunction
