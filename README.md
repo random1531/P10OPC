@@ -41,21 +41,23 @@ npm run start
 
 Créez un fichier `./.env.local` à la racine pour y placer vos variables d'environnement (ne pas committer). Exemple minimal pour définir des chemins ou variables utiles :
 
-```env
+```env.local
 # Variables d'exemple — adaptez-les à votre configuration
 NEXT_PUBLIC_BASE_PATH="/"
 APP_DATA_PATH="/path/to/data"
-# Clé/endpoint de l'API Mistral (si nécessaire)
-MISTRAL_API_KEY=""
 
 ```
 
 Remplacez les valeurs par vos chemins/clefs réels. Gardez ce fichier hors du contrôle de version.
 
 ## Fichier d'environnement (.env)
-MISTRAL_API_KEY
-AGENT_ID
 
+```env
+# Clé api mistral
+MISTRAL_API_KEY
+@ Clé agent
+AGENT_ID
+```
 ## Agent IA (information en anglais)
 
 Info EN — LLM agent
