@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams,useRouter } from "next/navigation";
 import ModalCreateTask from "@/components/ui/modal/ModalProps";
 import FormCreateTask from "../../../../components/ui/form/CreateTask";
 import type { Task } from "@/types/task";
@@ -30,6 +30,7 @@ export default function ProjetIdDetails() {
   const params = useParams();
   const slug = params.slug;
   const projectId = Array.isArray(slug) ? slug[0] : (slug ?? "");
+    const router = useRouter();
 
   useEffect(() => {
     fetchProjects();
@@ -41,8 +42,13 @@ export default function ProjetIdDetails() {
   useEffect(() => {
     if (projectId && projects.length > 0) {
       setCurrentProject(projects.find((p) => p.id === projectId));
+      const projectFund = projects.find((p)=>p.id=== projectId)
+      if(!projectFund){
+        router.replace("/not-found")
+        return;
+      }
     }
-  }, [projectId, projects]);
+  }, [projectId, projects,router]);
 
   useEffect(() => {
     setFilteredTasks(tasks);
