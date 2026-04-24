@@ -112,7 +112,5 @@ Use this JSON contract when you call the LLM. The application will parse the ret
 - Adapter les variables d'environnement selon votre déploiement.
 - Le format JSON est strict : toute sortie non-JSON provoquera une erreur de parsing.
 
-## Contact
 
-Pour toute question ou problème, ouvrez une issue sur le dépôt ou contactez l'équipe de développement.
 
