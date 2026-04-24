@@ -55,7 +55,7 @@ Remplacez les valeurs par vos chemins/clefs réels. Gardez ce fichier hors du co
 ```env
 # Clé api mistral
 MISTRAL_API_KEY
-@ Clé agent
+# Clé agent
 AGENT_ID
 ```
 ## Agent IA (information en anglais)
