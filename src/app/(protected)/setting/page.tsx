@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useProtected } from "../../context/ContextProvider";
 import UserChangeForm from "@/components/ui/form/userChange";
 import Button from "@/components/ui/button/button";
@@ -17,8 +16,8 @@ export default function setting() {
         </div>
         <UserChangeForm />
      
-        <Button onclick={() => localStorage.clear()} textBtn="Déconnexion"/>
       </div>
+        <Button onclick={() => localStorage.clear()} textBtn="Déconnexion"/>
     </div>
   );
 }

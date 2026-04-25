@@ -67,10 +67,16 @@ export default function TasksCardProject({
           <p>Assigné à :</p>
           <div className="flex gap-2.5">
             {task.assignees.map((assignee) => (
-              <p key={assignee.id}>
+              <div key={assignee.id} className="flex gap-0.5">
+
+              <p  className="w-8 h-8 rounded-full bg-gray-200 text-sm flex justify-center items-center shrink-0">
                 {assignee.user.name.substring(0, 2).toUpperCase()}{" "}
-                {assignee.user.name}
               </p>
+               <p  className="px-3 py-1 bg-gray-200 rounded-xl text-sm min-h-8 flex items-center">
+                {assignee.user.name}
+                </p> 
+                
+              </div>
             ))}
           </div>
         </div>

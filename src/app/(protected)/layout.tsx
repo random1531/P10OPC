@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Header from "../../components/ui/header";
 import { ProtectedProvider } from "../context/ContextProvider";
 import { Toaster } from "sonner";
+import Footer from "@/components/ui/footer";
 
 export default function ProtectedLayout({
   children,
@@ -30,9 +31,9 @@ export default function ProtectedLayout({
     <>
       <ProtectedProvider>
         <Header />
-
         {children}
         <Toaster position="top-right" richColors />
+        <Footer/>
       </ProtectedProvider>
     </>
   );
