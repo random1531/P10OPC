@@ -1,7 +1,7 @@
 import InputForm from "./input";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { LoginFunction } from "@/app/(auth)/function";
+import { LoginFunction } from "@/features/auth/api"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
