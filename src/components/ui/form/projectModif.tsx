@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import InputFunction from "./input";
 import Button from "../button/button";
-import ProjectMenber from "../userShearch/userProject";
 import { useProjectStore } from "@/store/useProjectStore";
 import type { Project } from "@/types/project";
-import SearchUser from "../userShearch/usershearch";
+import { ProjectMember, User } from "@/types/user";
 
 export default function ProjetModif({ ids }: { ids: string }) {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
   const [currentProject, setCurrentProject] = useState<Project | undefined>(
     undefined,
   );
-  const [userSelectedID, setUserSelectedID] = useState<string[]>([]);
+  const [userSelectedID, setUserSelectedID] = useState<[ProjectMember[]]>();
 
   useEffect(() => {
     fetchProjects();
@@ -36,7 +35,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
       if (foundProject) {
         setTitle(foundProject.name || "");
         setDescription(foundProject.description || "");
-        setUserSelectedID(foundProject.members.map((e) => e.user.id));
+        setUserSelectedID([foundProject.members]);
       }
     }
   }, [ids, projects]);
@@ -94,36 +93,39 @@ export default function ProjetModif({ ids }: { ids: string }) {
           labelText="Description"
           valueInput={description}
         />
-        <Button
-          onclick={() =>
-            handleSubmit({ preventDefault: () => {} } as React.FormEvent)
-          }
-          textBtn="Enregistrer"
-          disabled={!title.trim() || !description.trim()}
-        />
-        <SearchUser userSelected={userSelectedID} setUserSelected={setUserSelectedID}/>
+
         <div className="w-full"></div>
         <div className="flex flex-wrap w-full gap-1.5">
           {currentProject?.members.map((p) => (
             <p
-              onClick={(e) =>
-                handleDeleteContributor({
-                  idPorject: currentProject.id,
-                  iduser: p.user.id,
-                })
-              }
-              className="p-1 bg-gray-200 rounded-xl cursor-pointer"
-              key={p.id}
+            onClick={(e) =>
+              handleDeleteContributor({
+                idPorject: currentProject.id,
+                iduser: p.user.id,
+              })
+            }
+            className="p-1 bg-gray-200 rounded-xl cursor-pointer"
+            key={p.id}
             >
               {p.user.name}
             </p>
           ))}
         </div>
+
+          <Button
+            onclick={() =>
+              handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+            }
+            textBtn="Enregistrer"
+            disabled={!title.trim() || !description.trim()}
+          />
+        {/*
         <Button
           onclick={handleDeleteProject}
           textBtn="Supprimer"
           disabled={false}
         />
+        */}
       </form>
     </>
   );

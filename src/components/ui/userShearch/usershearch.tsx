@@ -46,8 +46,12 @@ export default function SearchUser({
                 className="w-full text-left hover:bg-gray-50 px-2 py-1"
                 onClick={() =>
                   setUserSelected((prev) =>
-                    prev.includes(key) ? prev.filter((p) => p !== key) : [...prev, key]
-                  )
+                  {
+                     const already = prev.includes(key);
+                    const next = already ? prev.filter((p) => p !== key) : [...prev, key];
+                    onSelect?.(key, !already);
+                    return next;
+                })
                 }
               >
                 {e.name}
@@ -58,16 +62,19 @@ export default function SearchUser({
           );
         })}
 
-      {userSelected.length === 0 ? null : (
+       {userSelected.length === 0 ? null : (
         <div className="flex flex-wrap gap-2 mt-2">
-          {userSelected.map((email) => (
+          {userSelected.map((v) => (
             <button
-              key={email}
+              key={v}
               type="button"
               className="px-2 py-1 bg-gray-100 rounded text-sm"
-              onClick={() => setUserSelected((prev) => prev.filter((p) => p !== email))}
+              onClick={() => {
+                setUserSelected((prev) => prev.filter((p) => p !== v));
+                onSelect?.(v, false);
+              }}
             >
-              {email} ×
+              {v} ×
             </button>
           ))}
         </div>
