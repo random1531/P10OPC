@@ -4,9 +4,13 @@ import type { User } from "../../../types/user";
 export default function SearchUser({
   userSelected,
   setUserSelected,
+  keyField = "email",
+  onSelect,
 }: {
   userSelected: string[];
   setUserSelected: React.Dispatch<React.SetStateAction<string[]>>;
+   keyField?: "email" | "id";
+   onSelect? : (key:string,selected:boolean)=>void
 }) {
   const [useSh, setUseSh] = useState<string>("");
   const [UserFound, SetUserFound] = useState<User[]>([]);
@@ -32,23 +36,27 @@ export default function SearchUser({
         onChange={(e) => setUseSh(e.target.value)}
         placeholder="Rechercher un utilisateur..."
       />
-      {Array.isArray(UserFound) &&
-        UserFound.map((e) => (
-          <div key={e.id} className="py-1">
-            <button
-              type="button"
-              className="w-full text-left hover:bg-gray-50 px-2 py-1"
-              onClick={() =>
-                setUserSelected((prev) =>
-                  prev.includes(e.email) ? prev.filter((p) => p !== e.email) : [...prev, e.email]
-                )
-              }
-            >
-              {e.name}
-            </button>
-            <hr />
-          </div>
-        ))}
+     {Array.isArray(UserFound) &&
+        UserFound.map((e) => {
+          const key = (keyField === "email" ? e.email : e.id) || "";
+          return (
+            <div key={e.id} className="py-1">
+              <button
+                type="button"
+                className="w-full text-left hover:bg-gray-50 px-2 py-1"
+                onClick={() =>
+                  setUserSelected((prev) =>
+                    prev.includes(key) ? prev.filter((p) => p !== key) : [...prev, key]
+                  )
+                }
+              >
+                {e.name}
+                <span className="text-xs text-gray-500 ml-2">({key})</span>
+              </button>
+              <hr />
+            </div>
+          );
+        })}
 
       {userSelected.length === 0 ? null : (
         <div className="flex flex-wrap gap-2 mt-2">

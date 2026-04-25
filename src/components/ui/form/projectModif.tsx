@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import InputFunction from "./input";
 import Button from "../button/button";
+import ProjectMenber from "../userShearch/userProject";
 import { useProjectStore } from "@/store/useProjectStore";
 import type { Project } from "@/types/project";
+import SearchUser from "../userShearch/usershearch";
 
 export default function ProjetModif({ ids }: { ids: string }) {
   const router = useRouter();
@@ -20,6 +22,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
   const [currentProject, setCurrentProject] = useState<Project | undefined>(
     undefined,
   );
+  const [userSelectedID, setUserSelectedID] = useState<string[]>([]);
 
   useEffect(() => {
     fetchProjects();
@@ -33,6 +36,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
       if (foundProject) {
         setTitle(foundProject.name || "");
         setDescription(foundProject.description || "");
+        setUserSelectedID(foundProject.members.map((e) => e.user.id));
       }
     }
   }, [ids, projects]);
@@ -61,8 +65,7 @@ export default function ProjetModif({ ids }: { ids: string }) {
     idPorject: string;
     iduser: string;
   }) => {
-    currentProject?.members.forEach((member, index) => {
-    });
+    currentProject?.members.forEach((member, index) => {});
 
     const success = await removeContributor(idPorject, iduser);
 
@@ -70,10 +73,9 @@ export default function ProjetModif({ ids }: { ids: string }) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       await fetchProjects();
       const updatedProject = projects.find((p) => p.id === idPorject);
-  
+
       setCurrentProject(updatedProject);
     }
-   
   };
   return (
     <>
@@ -99,6 +101,8 @@ export default function ProjetModif({ ids }: { ids: string }) {
           textBtn="Enregistrer"
           disabled={!title.trim() || !description.trim()}
         />
+        <SearchUser userSelected={userSelectedID} setUserSelected={setUserSelectedID}/>
+        <div className="w-full"></div>
         <div className="flex flex-wrap w-full gap-1.5">
           {currentProject?.members.map((p) => (
             <p
