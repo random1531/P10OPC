@@ -6,7 +6,7 @@ import Button from "../button/button";
 import ModalCreateTask from "../modal/ModalProps";
 import ChangePassword from "./changePassword";
 export default function userChange() {
-  const { userDetail, loading, error, refreshUserDetail } = useProtected();
+  const { userDetail, loading, error } = useProtected();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [isOpen, setIsOpen] = useState(false);

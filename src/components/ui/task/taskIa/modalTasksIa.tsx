@@ -4,6 +4,7 @@ import { AddTasksToproject } from "@/features/task/api";
 import { HiSparkles } from "react-icons/hi";
 import Loader from "../../tools/loader";
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
+import Button from "../../button/button";
 
 type Task = {
   title: string;
@@ -66,9 +67,9 @@ export default function TaskGenerator({
         }),
       ),
     );
-    // Rafraîchir les tâches après ajout
+
     await fetchTasks(idPorject);
-    // Fermer le modal si la fonction est fournie
+
     if (onClose) {
       onClose();
     }
@@ -117,16 +118,23 @@ export default function TaskGenerator({
             </h2>
           </div>
           {tasks.map((task, index) => (
-            <IaTask
-              handleDelete={() =>
-                setTasks(tasks.filter((t) => t.title !== task.title))
-              }
+             <IaTask
               key={index}
               TaskName={task.title}
               Description={task.description}
+              handleDelete={() =>
+                setTasks((prev) => prev.filter((_, i) => i !== index))
+              }
+              onChangeName={(val) =>
+                setTasks((prev) => prev.map((t, i) => (i === index ? { ...t, title: val } : t)))
+              }
+              onChangeDescription={(val) =>
+                setTasks((prev) => prev.map((t, i) => (i === index ? { ...t, description: val } : t)))
+              }
             />
           ))}
-          <button onClick={handleSubmitTasks}>Enregistrer</button>
+
+          <Button textBtn="Enregistrer" onclick={handleSubmitTasks} />
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { useProjectTasksStore } from "@/store/useProjectTasksStore";
 import { useState } from "react";
 import Loader from "../../tools/loader";
+import { useProtected } from "@/app/context/ContextProvider";
 
 type AddCommentsProps = {
   projectId: string;
@@ -14,6 +15,7 @@ export default function AddCommentsToTask({
   const [comment, setComment] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const { addComment, refreshComments } = useProjectTasksStore();
+    const { userDetail, loading, error, refreshUserDetail } = useProtected()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +36,9 @@ export default function AddCommentsToTask({
         <Loader />
       ) : (
         <div className="flex justify-between h-32">
-          <p>ui</p>
+            <p className="w-6.75 h-6.75 flex items-center justify-center gap-[4.15px] rounded-full  pt-[8.72px] pr-[4.98px] pb-[8.72px] pl-[4.98px] bg-orange-200">
+              {userDetail?.name.substring(0, 2)}
+            </p>
           <form
             onSubmit={handleSubmit}
             className="flex items-end flex-col gap-2.5 justify-between h-full w-11/12 rounded-xl"

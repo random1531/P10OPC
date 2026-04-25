@@ -1,8 +1,11 @@
+import { useProtected } from "@/app/context/ContextProvider";
 import { HiSparkles } from "react-icons/hi";
+
 
 type HeroHeaderProps = {
   ProjectName: string | undefined;
   ProjectDescription: string | undefined;
+  ProjectOwner:string | undefined;
   onCreateTask: () => void;
   onCreateIATask: () => void;
   OpenModifProject: () => void;
@@ -11,10 +14,12 @@ type HeroHeaderProps = {
 export default function HeroHeader({
   ProjectName,
   ProjectDescription,
+  ProjectOwner,
   onCreateTask,
   onCreateIATask,
   OpenModifProject,
 }: HeroHeaderProps) {
+   const { userDetail, loading, error, refreshUserDetail } = useProtected()
   return (
     <div className="w-full flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
       <div className="flex flex-col gap-2 max-w-full md:max-w-2xl">
@@ -22,12 +27,15 @@ export default function HeroHeader({
           <p className="font-sans font-semibold text-2xl sm:text-3xl text-[#1F1F1F] wrap-break-words">
             {ProjectName}
           </p>
-          <p
+        {
+          ProjectOwner === userDetail?.id ? (<p
             className="text-[#D3590B] underline cursor-pointer"
             onClick={OpenModifProject}
           >
             Modifier
-          </p>
+          </p>):("")
+        }
+          
         </div>
         <p className="font-sans font-normal text-sm sm:text-base md:text-lg text-gray-500 wrap-break-words">
           {ProjectDescription}

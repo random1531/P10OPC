@@ -3,6 +3,7 @@ import InputForm from "./input";
 import SearchUser from "../userShearch/usershearch";
 import { useProjectStore } from "@/store/useProjectStore";
 import UserAddToProject from "../userShearch/userAddToTask/userAddToProject";
+import Button from "../button/button";
 
 export default function CreatProject({ onClose }: { onClose: () => void }) {
   const { addProject } = useProjectStore();
@@ -40,12 +41,8 @@ export default function CreatProject({ onClose }: { onClose: () => void }) {
       <label>Contributeur</label>
 
       <UserAddToProject onSelectionChange={(ids) => setUsers(ids)} />
-      <button
-        className="flex gap-2.5 rounded-[10px] py-3.25 px-18.5 bg-black text-white "
-        type="submit"
-      >
-        Ajouter un projet
-      </button>
+      
+      <Button textBtn="Ajouter un projet"/>
     </form>
   );
 }

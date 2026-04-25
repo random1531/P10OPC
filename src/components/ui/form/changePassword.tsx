@@ -21,7 +21,8 @@ export default function ChangePassword({close}:{close: ()=>void}) {
   };
 
   return (
-    <form onSubmit={handleChangePassword}>
+    <form className="flex flex-col gap-2.5" onSubmit={handleChangePassword}>
+         <h2 className="font-semibold text-[24px] text-[#1F1F1F] font-manrope">Modifier mot de passe</h2>
       <InputFunction
         type="password"
         idvalue="oldPassword"

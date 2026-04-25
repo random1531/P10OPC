@@ -4,7 +4,7 @@ import InputFunction from "./input";
 import Button from "../button/button";
 import { useProjectStore } from "@/store/useProjectStore";
 import type { Project } from "@/types/project";
-import { ProjectMember, User } from "@/types/user";
+import { ProjectMember } from "@/types/user";
 
 export default function ProjetModif({ ids }: { ids: string }) {
   const router = useRouter();
@@ -78,7 +78,8 @@ export default function ProjetModif({ ids }: { ids: string }) {
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2.5" onSubmit={handleSubmit}>
+        <h2 className="font-semibold text-[24px] text-[#1F1F1F] font-manrope">Modifier</h2>
         <InputFunction
           idvalue="title"
           type="text"
@@ -119,13 +120,13 @@ export default function ProjetModif({ ids }: { ids: string }) {
             textBtn="Enregistrer"
             disabled={!title.trim() || !description.trim()}
           />
-        {/*
+       
         <Button
           onclick={handleDeleteProject}
           textBtn="Supprimer"
           disabled={false}
         />
-        */}
+       
       </form>
     </>
   );

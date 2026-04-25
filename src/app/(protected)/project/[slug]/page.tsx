@@ -77,6 +77,7 @@ export default function ProjetIdDetails() {
   return (
     <div className="flex flex-col items-center w-full relative pt-6 pb-8 px-4 sm:px-6 md:px-8 lg:px-14 gap-6">
       <HeroHeader
+       ProjectOwner={currentProject?.owner.id}
         OpenModifProject={() => setIsProjectOpen(true)}
         ProjectDescription={currentProject?.description}
         ProjectName={currentProject?.name}
@@ -97,7 +98,7 @@ export default function ProjetIdDetails() {
 
       {isIATaskOpen && (
         <ModalCreateTask onClose={() => setIsIATaskOpen(false)}>
-          <Test idPorject={projectId} />
+          <Test idPorject={projectId} onClose={() => setIsIATaskOpen(false)} />
         </ModalCreateTask>
       )}
       {isCreateTaskOpen && (

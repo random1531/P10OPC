@@ -22,8 +22,8 @@ export default function Comments({
 
   const handleDelete = async () => {
     setIsLoading(true);
-   
-    await deleteComment(projectId,taskId, comment.id);
+
+    await deleteComment(projectId, taskId, comment.id);
     setIsLoading(false);
   };
 
@@ -34,7 +34,9 @@ export default function Comments({
       ) : (
         <div className="flex flex-col">
           <div className="flex justify-between h-20">
-            <p>{comment?.author?.name.substring(0, 2)}</p>
+            <p className="w-6.75 h-6.75 flex items-center justify-center gap-[4.15px] rounded-full  pt-[8.72px] pr-[4.98px] pb-[8.72px] pl-[4.98px] bg-gray-200">
+              {comment?.author?.name.substring(0, 2)}
+            </p>
             <div className="flex justify-between bg-gray-100 h-20 w-11/12 rounded-xl p-4">
               <div className="flex flex-col justify-between">
                 <p>{comment?.author?.name}</p>

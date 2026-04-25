@@ -35,8 +35,12 @@ export default function ModifTaskProject({
             >
               Supprimé
             </button>
-            <button onClick={Modif} className="text-sm w-full px-3 py-2 text-left hover:bg-orange-100 transition-colors">
-              Modifié
+           <button
+              onClick={Autorised ? Modif : undefined}
+              className={`text-sm w-full px-3 py-2 text-left rounded-t-lg transition-colors
+                            ${Autorised ? "hover:bg-red-100 cursor-pointer bg-white" : "text-gray-400 cursor-not-allowed bg-gray-100"}`}
+              disabled={!Autorised}
+            >    Modifié
             </button>
             <button
               className="text-sm w-full px-3 py-2 text-left hover:bg-gray-100 rounded-b-lg transition-colors"
