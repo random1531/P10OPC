@@ -55,13 +55,16 @@ export async function LoginFunction({
       body: JSON.stringify(formData),
     });
     const data = await res.json();
-    if (!res.ok) {
+
+    if (data.success) {
+   
+    } else {
+      toast.error(data.message);
     }
     localStorage.setItem("token", data.data.token);
-
     return data;
   } catch (error) {
-    
+
   }
 }
 
@@ -109,18 +112,15 @@ export async function resetPassword({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-       body: JSON.stringify(formData),
+      body: JSON.stringify(formData),
     });
-     const result = await res.json();
+    const result = await res.json();
     if (result.success) {
       toast.success(result.message);
     } else {
       toast.error(result.message);
     }
-   
+
     return result;
-
-  } catch (error: any) {
-
-  }
+  } catch (error: any) {}
 }
